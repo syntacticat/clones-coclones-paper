@@ -1,0 +1,2525 @@
+%%%%Packages
+\pdfoutput=1
+\documentclass[11pt, a4paper, twoside,leqno]{amsart}
+\usepackage[centering, totalwidth = 380pt, totalheight = 600pt]{geometry}
+\usepackage{nag}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{microtype, stmaryrd, url, lmodern, eucal, bbold}
+\usepackage[shortlabels]{enumitem}
+%For \yo: 
+\usepackage[latin1,utf8x]{inputenc}
+\usepackage{mathrsfs}
+\usepackage{ucs}
+%\usepackage[utf8x]{inputenc}
+\DeclareFontFamily{U}{min}{}
+\DeclareFontShape{U}{min}{m}{n}{<-> udmj30}{}
+%%%Plus macro further down:
+%\newcommand{\yo}{\text{\usefont{U}{min}{m}{n}\symbol{'210}}} 
+\usepackage{color}
+\definecolor{darkgreen}{rgb}{0,0.45,0}
+\usepackage[colorlinks,citecolor=darkgreen,linkcolor=darkgreen]{hyperref}
+\usepackage[british]{babel}
+
+%%%%Spacing
+
+\lineskiplimit=-3pt
+\makeatletter
+%\def\@cite#1#2{[{#1\if@tempswa , #2\fi}]}% OLD
+\def\@cite#1#2{[{#1\if@tempswa ,~#2\fi}]}% NEW
+\makeatother
+
+%%%%Colours
+
+\def\blue{\leavevmode\color{blue}}%
+\def\black{\leavevmode\color{black}}%
+\def\red{\leavevmode\color{red}}%
+\def\green{\leavevmode\color{green}}%
+
+%%%%Fonts
+
+\renewcommand{\bfdefault}{b}
+\DeclareMathAlphabet{\mathbf}{OT1}{cmr}{b}{n}
+\DeclareFontSeriesDefault[rm]{bf}{b}
+
+%%%%Xypic
+
+\usepackage[arrow, matrix, tips, curve, graph, rotate]{xy}
+\SelectTips{cm}{10}
+
+\makeatletter
+\def\matrixobject@{%
+  \edef \next@{={\DirectionfromtheDirection@ }}%
+  \expandafter \toks@ \next@ \plainxy@
+  \let\xy@@ix@=\xyq@@toksix@
+  \xyFN@ \OBJECT@}
+\let\xy@entry@@norm=\entry@@norm
+\def\entry@@norm@patched{%
+  \let\object@=\matrixobject@
+  \xy@entry@@norm }
+\AtBeginDocument{\let\entry@@norm\entry@@norm@patched}
+\makeatother
+
+\newcommand{\twocong}[2][0.5]{\ar@{}[#2] \save ?(#1)*{\cong}\restore}
+\newcommand{\twoeq}[2][0.5]{\ar@{}[#2] \save ?(#1)*{=}\restore}
+\newcommand{\rtwocell}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/l 0.2cm/;?(#1)+/r 0.2cm/^{#3}}
+\newcommand{\ltwocell}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/r 0.2cm/;?(#1)+/l 0.2cm/^{#3}}
+\newcommand{\ltwocello}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/r 0.2cm/;?(#1)+/l 0.2cm/_{#3}}
+\newcommand{\dtwocell}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/u  0.2cm/;?(#1)+/d 0.2cm/^{#3}}
+\newcommand{\dltwocell}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/ur  0.2cm/;?(#1)+/dl 0.2cm/^{#3}}
+\newcommand{\drtwocell}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/ul  0.2cm/;?(#1)+/dr 0.2cm/^{#3}}
+\newcommand{\dthreecell}[3][0.5]{\ar@{}[#2] \ar@3{->}?(#1)+/u  0.2cm/;?(#1)+/d 0.2cm/^{#3}}
+\newcommand{\utwocell}[3][0.5]{\ar@{}[#2] \ar@{=>}?(#1)+/d 0.2cm/;?(#1)+/u 0.2cm/_{#3}}
+\newcommand{\dtwocelltarg}[3][0.5]{\ar@{}#2 \ar@{=>}?(#1)+/u  0.2cm/;?(#1)+/d 0.2cm/^{#3}}
+\newcommand{\utwocelltarg}[3][0.5]{\ar@{}#2 \ar@{=>}?(#1)+/d  0.2cm/;?(#1)+/u 0.2cm/_{#3}}
+
+\newcommand{\pushoutcorner}[1][dr]{\save*!/#1+1.2pc/#1:(1,-1)@^{|-}\restore}
+\newcommand{\pullbackcorner}[1][dr]{\save*!/#1-1.2pc/#1:(-1,1)@^{|-}\restore}
+
+\newdir{(}{{}*!<0em,-.14em>-\cir<.14em>{l^r}}
+\newdir{ (}{{}*!/-5pt/\dir{(}}
+\newdir{ >}{{}*!/-5pt/\dir{>}}
+\newcommand{\sh}[2]{**{!/#1 -#2/}}
+
+%%%%Operators
+
+\DeclareMathOperator{\el}{el}
+\DeclareMathOperator{\ob}{ob}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\mor}{mor}
+\DeclareMathOperator{\im}{im}
+
+\newcommand{\cat}[1]{\mathbf{#1}}
+\newcommand{\thg}{{\mathord{\text{--}}}}
+
+\newcommand{\abs}[1]{{\left|{#1}\right|}}
+\newcommand{\dbr}[1]{\left\llbracket{#1}\right\rrbracket}
+\newcommand{\res}[2]{\left.{#1}\right|_{#2}}
+\newcommand{\set}[2]{\left{\,#1 \ \vrule\  #2\,\right}}
+\newcommand{\spn}[1]{{\langle{#1}\rangle}}
+\newcommand{\elt}[1]{\left\llcorner{#1}\right\lrcorner}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\newcommand{\cd}[2][]{\vcenter{\hbox{\xymatrix#1{#2}}}}
+\newcommand{\quot}{\delimiter"502F30E\mathopen{}}
+
+%%%%Letters
+
+\renewcommand{\phi}{\varphi}
+\newcommand{\A}{{\mathcal A}}
+\newcommand{\B}{{\mathcal B}}
+\newcommand{\C}{{\mathcal C}}
+\newcommand{\D}{{\mathcal D}}
+\newcommand{\E}{{\mathcal E}}
+\newcommand{\F}{{\mathcal F}}
+\newcommand{\G}{{\mathcal G}}
+\renewcommand{\H}{{\mathcal H}}
+\newcommand{\I}{{\mathcal I}}
+\newcommand{\J}{{\mathcal J}}
+\newcommand{\K}{{\mathcal K}}
+\renewcommand{\L}{{\mathcal L}}
+\newcommand{\M}{{\mathcal M}}
+\newcommand{\N}{{\mathcal N}}
+\renewcommand{\O}{{\mathcal O}}
+\renewcommand{\P}{{\mathcal P}}
+\newcommand{\Q}{{\mathcal Q}}
+\newcommand{\R}{{\mathcal R}}
+\let\sec=\S
+\renewcommand{\S}{{\mathcal S}}
+\newcommand{\T}{{\mathcal T}}
+\newcommand{\U}{{\mathcal U}}
+\newcommand{\V}{{\mathcal V}}
+\newcommand{\W}{{\mathcal W}}
+\newcommand{\X}{{\mathcal X}}
+\newcommand{\Y}{{\mathcal Y}}
+\newcommand{\Z}{{\mathcal Z}}
+
+%%%%Arrows
+
+\newcommand{\xtor}[1]{\cdl[@1]{{} \ar[r]|-{\object@{|}}^{#1} & {}}}
+\newcommand{\tor}{\ensuremath{\relbar\joinrel\mapstochar\joinrel\rightarrow}}
+\newcommand{\To}{\ensuremath{\Rightarrow}}
+\newcommand{\Tor}{\ensuremath{\Relbar\joinrel\Mapstochar\joinrel\Rightarrow}}
+
+\makeatletter
+
+\def\hookleftarrowfill@{\arrowfill@\leftarrow\relbar{\relbar\joinrel\rhook}}
+\def\twoheadleftarrowfill@{\arrowfill@\twoheadleftarrow\relbar\relbar}
+\def\leftbararrowfill@{\arrowdoublefill@{\leftarrow\mkern-5mu}\relbar\mapstochar\relbar\relbar}
+\def\Leftbararrowfill@{\arrowdoublefill@{\Leftarrow\mkern-2mu}\Relbar\Mapstochar\Relbar\Relbar}
+\def\leftringarrowfill@{\arrowdoublefill@{\leftarrow\mkern-3mu}\relbar{\mkern-3mu\circ\mkern-2mu}\relbar\relbar}
+\def\lefttriarrowfill@{\arrowfill@{\mathrel\triangleleft\mkern0.5mu\joinrel\relbar}\relbar\relbar}
+\def\Lefttriarrowfill@{\arrowfill@{\mathrel\triangleleft\mkern1mu\joinrel\Relbar}\Relbar\Relbar}
+
+\def\hookrightarrowfill@{\arrowfill@{\lhook\joinrel\relbar}\relbar\rightarrow}
+\def\twoheadrightarrowfill@{\arrowfill@\relbar\relbar\twoheadrightarrow}
+\def\rightbararrowfill@{\arrowdoublefill@{\relbar\mkern-0.5mu}\relbar\mapstochar\relbar\rightarrow}
+\def\Rightbararrowfill@{\arrowdoublefill@{\Relbar\mkern-2mu}\Relbar\Mapstochar\Relbar\Rightarrow}
+\def\rightringarrowfill@{\arrowdoublefill@\relbar\relbar{\mkern-2mu\circ\mkern-3mu}\relbar{\mkern-3mu\rightarrow}}
+\def\righttriarrowfill@{\arrowfill@\relbar\relbar{\relbar\joinrel\mkern0.5mu\mathrel\triangleright}}
+\def\Righttriarrowfill@{\arrowfill@\Relbar\Relbar{\Relbar\joinrel\mkern1mu\mathrel\triangleright}}
+
+\def\leftrightarrowfill@{\arrowfill@\leftarrow\relbar\rightarrow}
+\def\mapstofill@{\arrowfill@{\mapstochar\relbar}\relbar\rightarrow}
+
+\renewcommand*\xleftarrow[2][]{\ext@arrow 20{20}0\leftarrowfill@{#1}{#2}}
+\providecommand*\xLeftarrow[2][]{\ext@arrow 60{22}0{\Leftarrowfill@}{#1}{#2}}
+\providecommand*\xhookleftarrow[2][]{\ext@arrow 10{20}0\hookleftarrowfill@{#1}{#2}}
+\providecommand*\xtwoheadleftarrow[2][]{\ext@arrow 60{20}0\twoheadleftarrowfill@{#1}{#2}}
+\providecommand*\xleftbararrow[2][]{\ext@arrow 10{22}0\leftbararrowfill@{#1}{#2}}
+\providecommand*\xLeftbararrow[2][]{\ext@arrow 50{24}0\Leftbararrowfill@{#1}{#2}}
+\providecommand*\xleftringarrow[2][]{\ext@arrow 10{26}0\leftringarrowfill@{#1}{#2}}
+\providecommand*\xlefttriarrow[2][]{\ext@arrow 80{24}0\lefttriarrowfill@{#1}{#2}}
+\providecommand*\xLefttriarrow[2][]{\ext@arrow 80{24}0\Lefttriarrowfill@{#1}{#2}}
+
+\renewcommand*\xrightarrow[2][]{\ext@arrow 01{20}0\rightarrowfill@{#1}{#2}}
+\providecommand*\xRightarrow[2][]{\ext@arrow 04{22}0{\Rightarrowfill@}{#1}{#2}}
+\providecommand*\xhookrightarrow[2][]{\ext@arrow 00{20}0\hookrightarrowfill@{#1}{#2}}
+\providecommand*\xtwoheadrightarrow[2][]{\ext@arrow 03{20}0\twoheadrightarrowfill@{#1}{#2}}
+\providecommand*\xrightbararrow[2][]{\ext@arrow 01{22}0\rightbararrowfill@{#1}{#2}}
+\providecommand*\xRightbararrow[2][]{\ext@arrow 04{24}0\Rightbararrowfill@{#1}{#2}}
+\providecommand*\xrightringarrow[2][]{\ext@arrow 01{26}0\rightringarrowfill@{#1}{#2}}
+\providecommand*\xrighttriarrow[2][]{\ext@arrow 07{24}0\righttriarrowfill@{#1}{#2}}
+\providecommand*\xRighttriarrow[2][]{\ext@arrow 07{24}0\Righttriarrowfill@{#1}{#2}}
+
+\providecommand*\xmapsto[2][]{\ext@arrow 01{20}0\mapstofill@{#1}{#2}}
+\providecommand*\xleftrightarrow[2][]{\ext@arrow 10{22}0\leftrightarrowfill@{#1}{#2}}
+\providecommand*\xLeftrightarrow[2][]{\ext@arrow 10{27}0{\Leftrightarrowfill@}{#1}{#2}}
+
+\makeatother
+
+%%%%Theorems, etc
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{Thm}{Theorem}
+\newtheorem{Prop}[Thm]{Proposition}
+\newtheorem{Cor}[Thm]{Corollary}
+\newtheorem{Lemma}[Thm]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{Defn}[Thm]{Definition}
+\newtheorem{Not}[Thm]{Notation}
+\newtheorem{Ex}[Thm]{Example}
+\newtheorem{Exs}[Thm]{Examples}
+\newtheorem{Rk}[Thm]{Remark}
+
+\newcommand{\Cat}{\cat{Cat}}
+\newcommand{\Set}{\cat{Set}}
+\newcommand{\CAT}{\cat{CAT}}
+\newcommand{\SET}{\cat{SET}}
+\newcommand{\mnd}[1]{\mathsf{#1}}
+\newcommand{\cmd}[1]{\mathsf{#1}}
+
+\newcommand{\Coalg}[1]{\mathsf{#1}\text-\cat{Coalg}}
+\newcommand{\Alg}[1]{\cat{#1}\text-\cat{Alg}}
+%EH
+\newcommand{\Sig}{\mathbf \Sigma\text-\cat{str}}
+\newcommand{\Kl}[1]{\cat{Kl}(\mathsf{#1})}
+\newcommand{\aone}{{\mathbf 1}}
+\newcommand{\atwo}{{\mathbf 2}}
+\newcommand{\athree}{{\mathbf 3}}
+\newcommand{\Rad}{\cat{Rad}\text-\cat{Cat}}
+%\newcommand{\mb}{{\mathbf {#1}}}
+
+\renewcommand{\vec}{\boldsymbol}
+
+%Eli's macros
+\newcommand{\azero}{{\mathbf 0}}
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\up}{\mathop{\uparrow}}
+\newcommand{\down}{\mathop{\downarrow}}
+\newcommand{\diff}{\setminus}
+\renewcommand{\prec}{\preccurlyeq}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\nleq}{\nleqslant}
+\renewcommand{\ngeq}{\ngeqslant}
+\renewcommand{\emptyset}{\varnothing}
+\DeclareMathOperator{\coker}{coker}
+
+%---
+%\newcommand{\DP}{\mathbb{D}}
+%\renewcommand{\P}{\mathbb{P}}
+%\newcommand{\FP}{\mathbb{FP}}
+%\newcommand{\FL}{\mathbb{FL}}
+%\DeclareMathOperator{\FP}{\mathsf{\bf FP}}
+\DeclareMathOperator{\FP}{\bf FP}
+\DeclareMathOperator{\FL}{\bf FL}
+
+
+\DeclareMathOperator{\Pol}{\mathsf{Pol}}
+\DeclareMathOperator{\Inv}{\mathsf{Inv}}
+%Class operators
+\DeclareMathOperator{\Hs}{\mathsf{H}}
+\DeclareMathOperator{\Iss}{\mathsf{I}}
+\DeclareMathOperator{\Ss}{\mathsf{S}}
+\DeclareMathOperator{\Si}{Si}
+\DeclareMathOperator{\Ps}{\mathsf{P}}
+\DeclareMathOperator{\PU}{\mathsf{P_U}}
+\DeclareMathOperator{\ISP}{\mathsf{ISP}}
+\DeclareMathOperator{\ISrP}{\mathsf{I}\mathsf{S}_{\mathrm{r}}\mathsf{P}}
+\DeclareMathOperator{\IDSP}{\mathsf{IDSP}}
+\DeclareMathOperator{\HSP}{\mathsf{HSP}}
+\DeclareMathOperator{\Sub}{Sub}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\gr}{gr}
+%\DeclareMathOperator{\gr}{gr}
+
+
+\newcommand{\yo}{\text{\usefont{U}{min}{m}{n}\symbol{'210}}}
+\renewcommand{\emptyset}{\varnothing}
+
+\newcommand{\richard}[1]{{\red #1}}
+%
+
+\begin{document}
+\leftmargini=2em 
+\title{Clones, coclones, and the duality between relations and operations}
+\author{Eli Hazel} 
+\address{School of Mathematical and Physical Sciences, Macquarie University, NSW 2109, Australia} 
+\email{eli.hazel@mq.edu.au}
+
+\subjclass[2000]{Primary: }
+\date{\today}
+
+\thanks{The support of a Macquarie University Research Excellence
+  Scholarship is gratefully acknowledged.}
+
+\begin{abstract}
+  The equivalence between Lawvere theories in category theory and
+  abstract clones in universal algebra is well-known.
+  The notion of relational clone is less so, but deserves more attention. These were developed in general algebra as a tool to study concrete
+  clones due to a Galois connection between relations and
+  operations. Concrete clones form the fix-points on the side of
+  operations and relational clones form the fix-points on the side of relations.
+  The lattices of fix-points are dually isomorphic --- a duality between
+  clones of operations and clones of relations, or coclones. 
+A category theoretic treatment linking this duality with finite product (Lawvere) theories has been
+considered an open problem. In this work, we give such a category theoretic
+treatment, leading to a dual equivalence
+  between categories whose objects on each side are certain classes of
+  finite limit theories.  
+\end{abstract}
+\maketitle
+
+
+\section{Introduction}
+\label{sec:introduction}
+Concrete clones have been objects of study since as far back as the
+1920s, when Emil Post gave a description of all clones concrete on the
+2-element set~\cite{Kerkhoff:2014aa}. However, the abstract notion was a later development
+originating as Lawvere's algebraic theories in~\cite{Lawvere:1963aa}. General algebraists adopted algebraic theories in the form
+of \emph{abstract clones}, finding use in the presentation of algebraic
+theories abstracted from signature, while concrete
+clones provide a complete representation of algebraic structure on
+a given base set. Building on this, algebraists developed the
+notion of a \emph{relational clone}, or \emph{coclone},
+which arise as the fixpoints on the relation side of a Galois
+connection between relations and operations on a given set. The name coclone suggests a duality, and indeed the fixpoints on the operation
+side are clones, and the clones and coclones on a given set form dually
+isomorphic lattices. Known commonly as the \(\Pol\)-\(\Inv\) Galois
+connection, it was described by
+McKenzie {\it et. al.} in~\cite{McKenzie:1987aa}
+%in their monograph \emph{Algebras, Lattices,
+%Varieties I}
+as `the most
+basic Galois connection in algebra'. 
+
+The \(\Pol\)-\(\Inv\) Galois
+connection was the focus of the 2013 Workshop on Algebra, Coalgebra and Topology at the
+University of Bath, which was organised
+as a joint venture between algebraists and categorists.
+%to encourage dialogue between the disciplines.
+In the preface to the workshop's Proceedings,
+%of the Workshop on Algebra, Coalgebra and Topology (WACT 2013),
+editors John Power and Cai Wingfield invite a category theoretic treatment
+of the connection --- and thus presumably the duality --- between clones and coclones in terms of Lawvere
+theories.  This work provides an answer to that invitation.
+However, our interest in this problem originates in its connection
+with a certain class of concrete dualities, the `natural dualities' of
+\cite{Clark:1998aa}; a connection we will make clear in forthcoming
+work. We note that the present work owes much to \cite{Clark:1998aa}.
+
+Returning to the matter at hand, it
+turns
+out that to capture \(\Pol\)-\(\Inv\) duality, we need more than the
+Lawvere theory alone can provide, in general. Nonetheless, we obtain a dual equivalence between categories
+whose objects on each side are certain classes of \emph{finite limit
+  theories}, while the finite product (Lawvere) theories are
+recoverable as full subcategories thereof. 
+We formulate the duality in terms of what we refer to as \emph{abstract
+  coclones}, which we introduce in the lead up to describing the
+duality in Section~\ref{sec:quasivariety}. The description of their
+dual theories, also in Section~\ref{sec:quasivariety}, is based on a characterisation
+of finite limit
+theories of quasivarieties given in \cite{Adamek:1998aa}. The
+categories involved, along with the duality itself, is the content of Section~\ref{sec:duality}.
+
+
+\section{Background}
+\label{sec:background}
+
+
+
+\subsection{Model theory}
+\label{sec:logic-background}
+%.
+This section is based on~\cite{Adamek:1994aa}.
+%.
+\begin{Defn}[Single-sorted signature \(\Sigma\)]
+  \label{def:1-signature}
+  A (single-sorted, finitary) \emph{signature} \(\Sigma\) consists of:
+  \begin{enumerate}[(i)]
+  \item Disjoint sets \(\Sigma_{\O}\) of \emph{operation symbols} and
+    \(\Sigma_{\R}\) of \emph{relation symbols};
+  \item A function
+    \(\mathsf{ar} \colon \Sigma_{\O}\rightarrow \mathbb{N}\)
+    assigning each operation symbol \(\tau\) in \(\Sigma_{\O}\) its arity
+    \(\tau \colon s^{n} \rightarrow s\), where
+    \(s\) is the sort and \(n\in \mathbb{N}\);
+  \item A function
+    \(\mathsf{ar} \colon \Sigma_{\R}\rightarrow \mathbb{N}\)
+    assigning each relation symbol its arity
+    \(\rho \colon s^{k}\), where
+    \(s\) is the sort and \(k \in \mathbb{N} \).
+  \end{enumerate}
+\end{Defn}
+
+\begin{Defn}[Structure for signature \(\Sigma\)]
+  \label{def:sig-str}
+  A \emph{\(\Sigma\)-structure} \(\mathsf{V} \defeq \langle V; \Sigma
+  \rangle\) of signature \(\Sigma\) is a set \(V\) equipped with with an interpretation of each
+  \(n\)-ary operation symbol \(\tau \in \Sigma_{\O}\) as a function \(\dbr{\tau}
+  \colon V^{n} \rightarrow V\),
+  and an interpretation of each \(k\)-ary relation symbol \(\rho \in \Sigma_{\R}\) as a
+  subset \(\dbr{\rho} \subseteq V^{k}\).
+\end{Defn}
+
+\begin{Defn}[Category of \(\Sigma\)-structures]
+  \label{def:cat-sig-st}
+  The \emph{category of \(\Sigma\)-structures} over a signature
+  \(\Sigma\) has
+  \begin{itemize}
+  \item \emph{Objects} are \(\Sigma\)-structures;
+  \item \emph{Morphisms} \(h \colon \mathsf{A} \rightarrow \mathsf{B}\) are
+    functions which commute with the operations and preserve the
+    relations. Explicitly:
+    
+    For each \(n\)-ary operation symbol \(\tau
+    \in \Sigma_{\O }\) and \(a_{1},\dots, a_{n}\in A\), 
+    \begin{equation*}
+      h(\dbr{\tau}_{\mathsf{A}}(a_{1},\dotsc,a_{n})) = \dbr{\tau}_{\mathsf{B}} (h(a_{1}),\dotsc , h(a_{n})),
+    \end{equation*}
+    and for each \(n\)-ary relation symbol \(\rho \in \Sigma_{\R}\),
+    \begin{equation*}
+      (a_{1},\dotsc, a_{n}) \in \dbr{\rho}_{\mathsf{A}} \implies \left(h (a_{1}), \dotsc ,h(a_{n})\right) \in \dbr{\rho}_{\mathsf{B}} \rlap{ .}
+    \end{equation*}
+  \end{itemize}
+\end{Defn}
+
+
+There are a number of useful facts about \(\Sig\) which can be found
+in~\cite{Adamek:1994aa}. 
+\begin{enumerate}[label=(\alph*), ref=(\alph*)]
+\item
+  \label{it:sig-lfp}
+  \(\Sig\) is locally finitely presentable, and so complete and
+  cocomplete;
+\item
+  \label{it:sig-factor-sys}
+  \(\Sig\) has (epi, regular mono) and (regular epi, mono)
+  factorisations of morphisms;
+\item
+  \label{it:sig-forgetful}
+  There is a natural forgetful functor
+  %from the category of \(\Sigma\)-structures to \(\Set\): 
+  \(\mathrm{G}
+  \colon \Sig \rightarrow \Set\) which sends a \(\Sigma\)-structure
+  its underlying set and a morphism of \(\Sigma\)-structures to its
+  underlying function;
+\item
+  \label{it:sig-free}
+  The forgetful functor has a
+  left adjoint \(\mathrm{F}
+  \colon \Set \rightarrow \Sig\), which sends a set \(A\) to the
+  structure whose underlying algebra is freely generated by \(A\) over
+  \(\Sigma_{\O}\), and with all relations empty.
+  %\item
+  %  \label{it:sig-fp-objects}
+  %  An object in \(\Sig\) is finitely presentable just when 
+
+\end{enumerate}
+
+
+\begin{Rk}[Subalgebras vs substructures]
+  \label{rk:subalg-vs-substr}
+  An important distinction must be noted here. In the sequel, we will
+  have occasion to consider structures for signatures which are purely operational --- containing only
+  operation symbols ---
+  and this will mean a distinction must be drawn between a \emph{subalgebra} and
+  \emph{substructure}. If a signature \(\Omega\) is purely
+  operational the objects of \(\cat{\Omega St}\) will be referred to as
+  \(\Omega\)-algebras. In \(\cat{\Omega St}\), the inclusion of a subalgebra \(A
+  \hookrightarrow B\) is a monomorphism. Moreover, for any morphism
+  \(h \colon A \rightarrow B\) of \(\Omega\)-algebras, we
+  have the \emph{image factorisation}
+  \begin{equation}
+    \label{eq:image-factor-alg}
+    \cd{
+      {A} \ar[rr]^-{h}
+      \ar@{->>}[dr]_-{e} & &
+      {B}  \\
+      &
+      \ar@{^{(}->}[ur]_-{m}
+      {h_{!}(A)}
+    }
+  \end{equation}
+  given by the (regular epi, mono) factorisation of \(h\), with 
+  \(h_{!}(A)\) a subalgebra of \(B\).
+
+  On the
+  other hand, if a signature \(\Psi\) has relation symbols, the image
+  factorisation of a morphism \(f \colon
+  \mathsf{X} \rightarrow \mathsf{Y}\) in \(\cat{\Psi St}\) does \emph{not}
+  necessarily give a substructure of \(\mathsf{Y}\). 
+  However, the inclusion of a substructure is a
+  \emph{regular} monomorphism, and indeed
+  %\(f \colon
+  %\mathsf{X} \rightarrow \mathsf{Y}\) of , we have
+  the \emph{regular} image factorisation
+  \begin{equation}
+    \label{eq:reg-image-factor}
+    \cd{
+      {\mathsf{X}} \ar[rr]^-{f}
+      \ar[dr]_-{e} & &
+      {\mathsf{Y}}  \\
+      &
+      \ar@{ >->}[ur]_-{m}
+      {f_{!}(\mathsf{X})}
+    }
+  \end{equation}
+   given by the (epi,
+  regular mono) factorisation of \(f\) does give a substructure
+  \(f_{!}(\mathsf{X})\) of \(\mathsf{Y}\).
+\end{Rk}
+
+%\subsection{Finite limit theories and Gabriel-Ulmer duality}
+%\label{sec:FLTs}
+
+\subsection{Clones of operations and clones of relations}
+\label{sec:clones-rel-clones}
+
+Let \(\cat{\Delta_{0}}\) be a skeleton of the category of linearly
+ordered finite
+sets and consider its inclusion \([\thg] \colon
+\cat{\Delta_{0}} \rightarrow \cat{Set}_{f}\) where \(\cat{Set}_{f}\) denotes
+the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set([n],A)\).
+
+\begin{Defn}
+  \label{def:conc-clo}
+  %A set \(\mathscr{C} \subseteq \O_{A}\) is
+  A \emph{concrete clone}, or  \emph{clone of operations} \(\mathscr{C}\) on a set \(A\) consists
+  of:
+  %an indexed family of sets 
+  %indexed family \((\mathscr{C}(n))_{n\in \cat{\Delta_{0}}
+  %}\), where:
+  \begin{itemize}
+  \item For each \(n\in \mathbb{N}
+    \), a set \(\mathscr{C}(n) \subseteq \Set(A^{n},A)
+    \) of \emph{\(n\)-ary operations};
+  \item \(\mathscr{C}(n)\) contains the projections \(\pi_{i}^{n} \colon A^{n}
+    \rightarrow A \);
+
+  \item \(\mathscr{C}\) is closed under \emph{composition of operations} in the sense that
+    %for all \(m,n\in\mathbb{N}\),
+    for any \(f \in \mathscr{C}(n)
+    \) and \(n\)-tuple \((g_{1},\dotsc,g_{n}) \in \mathscr{C}(k)^{n}
+    \), there is a \(k\)-ary
+    operation \(f(g_{1},\dots,g_{n})\)
+    defined on each \((a_{1},\dotsc,a_{k})\in A^{k}\) by
+    \begin{equation}
+      \label{eq:15}
+      f(g_{1},\dotsc,g_{n})(a_{1},\dotsc,a_{k}) = f(g_{1}(a_{1},\dotsc,a_{k}),\dotsc,g_{n}(a_{1},\dotsc,a_{k})).
+    \end{equation}
+  \end{itemize}
+\end{Defn}
+
+\begin{Ex}[Full concrete clone]
+  \label{ex:full-cc}
+  Given a set \(A\), take \(\mathscr{O}_{A}(n)\) to be the entirety of 
+  \(\Set(A^{n},A)\) for each \(n\). 
+  %\begin{equation*}
+  %  \mathscr{O}_{A}(n)\defeq \Set(A^{n},A).
+  %\end{equation*}
+  The set \(\mathscr{O}_{A}\) is known as the
+  \emph{full clone of operations}
+  on \(A\). 
+\end{Ex}
+
+
+
+
+\begin{Defn}
+  \label{def:all-rels-on-set}
+  Let \(A\) be a non-empty set. Considering an \(n\)-ary relation on \(A\) as a
+  subset of \(A^{n}\), the set of all finitary relations on~\(A\) is
+  given by
+  \begin{equation*}
+    \R_{A}\defeq \bigcup\limits_{n\in \mathbb{N}}
+    \Sub(A^{n})
+  \end{equation*}
+  where \(\Sub(A^{n})\) denotes the set of subsets of \(A^{n}\).
+\end{Defn}
+
+
+\begin{Defn}
+  \label{def:compatibility-matrix}
+  Given an operation \(f \colon A^{n} \rightarrow A\), we have \(f^{k}
+  \colon (A^{n})^{k} \rightarrow A^{k}\), with
+  \begin{equation*}
+    f^{k}
+    \begin{pmatrix}
+      a_{11} & a_{12} & \cdots & a_{1n} \\
+      a_{21} & a_{22} & \cdots & a_{2n} \\
+      \vdots  & \vdots  & \ddots & \vdots  \\
+      a_{k1} & a_{k2} & \cdots & a_{kn} 
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      f(a_{11}, \dotsc , a_{1n}) \\
+      f(a_{21}, \dotsc , a_{2n}) \\
+      \vdots  \\
+      f(a_{k1}, \dotsc , a_{kn})
+    \end{pmatrix}\rlap{ .}
+  \end{equation*}
+  The operation \(f\) is said to \emph{preserve}
+  %or be \emph{compatible} with
+  a relation \(S \subseteq A^{k}\) if for each \(k\times n\) matrix over \(A\),
+  \begin{equation*}
+    \begin{pmatrix}
+      a_{1j} \\
+      a_{2j} \\
+      \vdots \\
+      a_{kj}
+    \end{pmatrix} \in S  \quad (\forall j\in n)
+    \implies
+    \begin{pmatrix}
+      f(a_{11}, \dotsc , a_{1n}) \\
+      f(a_{21}, \dotsc , a_{2n}) \\
+      \vdots  \\
+      f(a_{k1}, \dotsc , a_{kn})
+    \end{pmatrix} \in S  \rlap{ .}
+  \end{equation*}
+\end{Defn}
+
+\begin{Lemma}
+  \label{lem:compatibility}
+  Given an operation \(f \colon A^{n} \rightarrow A\) and a relation \(S
+  \subseteq A^{k}\), the following are equivalent:
+  \begin{enumerate}
+    [label=(\alph*), ref=(\alph*)]
+  \item
+    \label{it:preservation-of-rel}
+    \(f\) preserves \(S \);
+  \item
+    \label{it:closed-under-op}
+    \(S \) is \emph{closed} under \(f\), that is, \(S\) is a subalgebra of
+    \(\langle A; f \rangle^{k}\);
+  \item
+    \label{it:morphism-rel-str}
+    \(f\) is a morphism of relational structures
+    \(\langle A; S  \rangle^{n} \rightarrow \langle A; S \rangle\).
+  \end{enumerate}
+\end{Lemma}
+
+\begin{proof}
+  Let \(\iota \colon S \rightarrow
+  A^{k}\) be the inclusion of \(k\)-ary
+  relation \(S\) and let \(f^{k}\!\upharpoonright\) denote the evident
+  restriction of \(f^{k}\). Then each of Items~\ref{it:preservation-of-rel},~\ref{it:closed-under-op},
+  and~\ref{it:morphism-rel-str} may be interpreted as requiring that the diagram
+  \begin{equation*}
+    \cd{
+      {S^{n}} \ar[r]^-{f^{k}\upharpoonright}
+      \ar[d]_{\iota^{n}} &
+      {S} \ar[d]^{\iota} \\
+      {(A^{k})^{n}} \ar[r]_-{f^{k}} &
+      {A^{k}}
+    } 
+  \end{equation*}
+  commutes.
+\end{proof}
+
+
+\begin{Defn}
+  \label{def:3}
+  We say a relation and an operation are \emph{compatible} if any of the
+  items in Lemma~\ref{lem:compatibility} hold (and so all of them do).
+\end{Defn}
+
+
+\begin{Rk}
+  \label{rk:es-nullaries}
+  Algebraists have traditionally opted not to allow an algebra to have
+  empty underlying set, and to exclude nullary
+  operations from clones of operations. However, without their inclusion, the categories we define
+  later will lack necessary (finite) limits and colimits. We note that~\cite{Behrisch:2014aa} does give a formulation of
+  compatibility of operations and relations, but their approach is
+  somewhat different to ours.
+ 
+  
+  An empty \(k\)-ary relation \(\emptyset{}^{k}\)
+  %\(r \colon S \rightarrow A^{k}\)
+  is closed under \(u \colon A^{n} \rightarrow A\)  if the following
+  diagram commutes:
+  \begin{equation*}
+    \cd{
+      {\emptyset{}^{k\times n}} \ar[r]^-{u^{k}\upharpoonright}
+      \ar[d]_{!^{n}} &
+      {\emptyset{}^{k}} \ar[d]^{!} \\
+      {(A^{k})^{n}} \ar[r]_-{u^{k}} &
+      {A^{k}}
+    } \rlap{ .}
+  \end{equation*}
+  If \(n \neq 0\), the map at the top of the
+  square is simply the identity map \(1_{\emptyset{}^{k}}\), so to ask
+  that a non-nullary operation \(u\) is compatible with an empty
+  relation is no condition at all on \(u\).
+  But if \(u\) is nullary, we have that \(\emptyset{}^{k\times 0} = \{1_{\emptyset{}^{k}}\}\), so the
+  map at the top of the square does {\it not exist}.
+
+  Thus an empty relation cannot be compatible with any nullary
+  operation but provides no constraint on non-nullary operations, which is what we
+  want.
+\end{Rk}
+
+\begin{Rk}
+  \label{rk:finite-vs-non}
+  The definition of a relational clone on a set \(A\) is usually given
+  in terms of
+  being a fix-point of the \(\Pol\)-\(\Inv\) Galois connection. If \(A\) is not finite, this requires a notion of
+  \emph{local closure}; this ensures that the lattice of clones of
+  operations and the lattice of clones of relations are dually isomorphic. 
+
+  However, for reasons which will become clear, up until
+  Section~\ref{sec:duality} we work only with relations and operations on
+  finite sets. Giving the more general version would introduce
+  unnecessary complications. We refer the interested reader
+  to~\cite{Kerkhoff:2014aa} for an overview and a wealth of references.
+\end{Rk}
+
+
+
+\subsection{The Pol-Inv Galois connection and the duality between
+  clones of operations and clones of relations}
+\label{sec:pol-inv-galois}
+
+The notion of `compatibility' between operations and relations given
+in Definition~\ref{def:3} induces a binary relation
+\(\C \subseteq \O_{A} \times \R_{A}
+\).
+As with any binary relation, \(\C\) induces a Galois connection
+between powersets. Known as
+the \(\Pol\)-\(\Inv\) Galois connection\footnote{The names of the adjoints come from the traditional terminology of a
+  relation being an `invariant' of a set of operations and an
+  operation being a `polymorphism' of a set of relations~\cite{Kerkhoff:2014aa}. These terms
+  are no longer used in this context. Nonetheless, they continue to lend their names to the adjoints. 
+}, it has adjoints
+\begin{equation*}
+  \xymatrixcolsep{3.5pc}
+  \xymatrixrowsep{2.5pc}
+  \cd{
+    {\mathscr{P} (\O_{A})^\mathrm{op}} \ar@<-4.5pt>[r]_-{\Inv} \ar@{<-}@<4.5pt>[r]^-{\Pol} \ar@{}[r]|-{\bot} &
+    {\mathscr{P} (\R_{A})
+      \rlap{ .}} 
+  }
+\end{equation*}
+
+\begin{Prop}
+  \label{prop:3}
+  Given a finite
+  set
+  \(A\), the fixpoints \(\Pol\Inv(F)=F\) are precisely the clones of
+  operations on \(A\) and the fixed points \(\Inv\Pol(R)=R\) are
+  precisely the clones of relations on \(A\). Moreover, the lattices
+  of fixpoints are dually isomorphic.  
+\end{Prop}
+
+Using compatibility from Definition~\ref{def:3}, we have that the mappings 
+\begin{equation*}
+  \Inv \colon \mathscr{P} (\O_{A})^{\mathrm{op}}  \rightarrow \mathscr{P} (\R_{A}) \quad \text{ and } \quad \Pol \colon \mathscr{P} (\R_{A})^{\mathrm{op}}
+  \rightarrow \mathscr{P} 
+  (\O_{A})
+\end{equation*}
+may be given by 
+\begin{equation*}
+  \Inv(F) \defeq \{S \in \R_{A} : S  \text{ is compatible with every } \tau \in F\} 
+\end{equation*}
+and
+\begin{equation*}
+  \Pol(R) \defeq \{ \tau \in \O_{A} : \tau \text{ is compatible with every } S \in R \}.
+\end{equation*}
+
+Using the characterisations of compatibility in Lemma~\ref{lem:compatibility}, we obtain:
+\begin{Cor}
+  \label{cor:compatibility-clone-coclone}
+  Assume \(\mathscr{R}
+  = \Inv (\mathscr{T}
+  )\) and \(\mathscr{T}
+  = \Pol (\mathscr{R}
+  )\)
+  are clones of relations and operations respectively on a set \(A\).
+  The relations in \(\mathscr{R}
+  \) are precisely those subsets which
+  correspond to subalgebras of finite powers of \(A\) under the algebra
+  structure given by \(\mathscr{T}
+  \) on \(A\) and extended pointwise.
+\end{Cor}
+
+
+\begin{Defn}[Term-closed sets of relations]
+  \label{def:term-closure}
+  A set of relations \(\mathscr{R}
+  \subseteq \R_{V}\) is called \emph{term-closed}
+  when it is closed with respect to the following:
+  
+  \begin{enumerate}
+    [label=(\roman*), ref= (\roman*)]
+  \item
+    \label{it:trivial}
+    \emph{Trivial relations}:
+    A \emph{trivial}, or \emph{generalised diagonal} relation on~\(V\)
+    is one induced by an equivalence relation on indices in the following
+    way: Given an equivalence relation \(\theta\) on \([k]\), there is
+    a \(k\)-ary relation on \(V\) given by
+    \begin{equation*}
+      \Delta_{\theta} = \{(x_{1}, \dots x_{k}) \in V^{k} : (\forall (i,j) \in \theta)\;\; x_{i} = x_{j}\}.
+    \end{equation*}
+    
+  \item
+    \label{it:projection}
+
+
+    \emph{Projections}:
+    %\label{def:ppf-proj}
+    Let \(\iota \colon k \rightarrow n\) be a monomorphism in
+    \(\cat{\Delta_{0}}\).
+    %Define \(\bar{\phi}(x_{1}, \dots x_{n}) =
+    %(x_{\phi(1)}, \dots x_{\phi(k)}) \)
+    Given an \(n\)-ary relation \(R\), the \(k\)-ary \emph{projection}
+    of \(R\) along \([\iota]\) is given by
+    \begin{equation*}
+      \iota(R)  \defeq \{ (x_{\iota(1)}, \dots , x_{\iota(k)}) \in V^{k} :
+      (x_{1}, \dots x_{n}) \in R \}
+    \end{equation*}
+
+  \item
+    \label{it:concat}
+    \emph{Concatenation}:
+    %\label{def:ppf-prod}
+    Given an~\(m\)-ary relation~\(R\) and a~\(k\)-ary relation~\(S\),
+    their concatenation \(RS\) is the \((m+k)\)-ary relation given by their cartesian product:
+    \begin{flalign*}
+      %R \times S = 
+      \{ (x_{1}, \dots x_{m}, x_{m+1}, \dots x_{m+k}) \in V^{m+k} :
+      (x_{1}, \dots x_{m}) \in R,
+      \; 
+      %&& \\
+      %& \text{ and } 
+      (x_{m+1}, \dots x_{m+k}) \in S \} \rlap{.} &
+    \end{flalign*}
+
+  \item
+    \label{it:int1}
+    \emph{Intersection}:
+    %\label{def:ppf-int}
+    Given~\(n\)-ary relations~\(R\) and~\(S\), their
+    intersection is given by
+    \begin{equation*}
+      R \cap S = \{ (x_{1}, \dots x_{n}) \in V^{n} : (x_{1}, \dots x_{n}) \in R  \text{ and }  (x_{1}, \dots x_{n}) \in S \} \rlap{.}
+    \end{equation*}
+
+  \item
+    \label{it:permut}
+    \emph{Coordinate permutation}:
+    %\label{def:ppf-permut}
+    A permutation \(s \colon [n]
+    \rightarrow [n]\)
+    induces a permutation of variables on an \(n\)-ary relation \(R\), giving a
+    relation
+    \begin{equation*}
+      s[R] =  \{ (x_{s(1)},\ldots,x_{s(n)}) \in V^{n} : (x_{1}, \ldots , x_{n})\in R \}
+    \end{equation*}
+  \end{enumerate}
+\end{Defn}
+
+\begin{Rk}
+  \label{rk:def:term-closure}
+  The items in Definition~\ref{def:term-closure} are essentially the
+  same as those given
+  on p.11 of~\cite{Freese:2022aa} without providing a name. We used different notation to
+  enforce differentiating between
+  categorical product and the concatenation of relations (which is
+  given by the binary product of the subsets). The terminology
+  term-closed is used in
+  \cite{Clark:1998aa} for something different, though related. We use
+  it due to the relationship with closure under terms derived from
+  positive-primitive formulae.
+  %{\blue (elucidated on in Section~\ref{sec:primitive-pos})}.
+\end{Rk}
+
+
+The following is Theorem~9.14 (ii)  in~\cite{Freese:2022aa}.
+\begin{Thm}
+  \label{thm:closure-coclone}
+  Given \(R \subseteq \R_{V}\), we have that \(R = \Inv\Pol(R)\) (and
+  is thus a relational clone on \(V\)) if and only if \(R\) is term-closed,
+  that is, contains all the
+  trivial relations and is closed under intersection of relations of
+  the same arity, relations induced by permutation of variables,
+  concatenation, and projection. 
+  %\begin{enumerate}[(a)]
+  %\item Product;
+  %\item Intersection;    
+  %\item Projection (restriction would be a better term);
+  %\item Coordinate permutations; and
+  %\item Contains all trivial relations.
+  %\end{enumerate}
+\end{Thm}
+
+\begin{Rk}
+  \label{rk:15}
+  We will shift between regarding an element of \(V^{k}\)
+  as a function \(\alpha \colon [k] \rightarrow V\) or as a
+  \(k\)-tuple of elements of \(V\) depending on what we find
+  convenient for the matter at hand.
+\end{Rk}
+
+
+%\subsection{Relational clones and primitive-positive formulae}
+%\label{sec:primitive-pos}
+%
+%{\blue
+%  How much to say about this should be considered.
+%  \begin{Defn}
+%    \label{def:ppf}
+%    A \emph{positive-primitive} formula in a first order language \(\mathscr{L} 
+%    \)...
+%  \end{Defn}
+%}
+%\subsection{Closure under primitive-positive formulae}
+%\label{sec:clos-under-prim}
+
+\subsection{Reflective subcategories}
+\label{sec:reflective-subcats}
+
+Assume we have an adjunction
+\begin{equation}
+  \label{eq:adj-GF}
+  \cd{
+    {\cat{D}} \ar@<-4.5pt>[r]_-{G} \ar@{<-}@<4.5pt>[r]^-{F} \ar@{}[r]|-{\bot} &
+    {\cat{C}}   
+  }
+\end{equation}
+with unit \(\eta \colon 1_{\cat{C}} \rightarrow GF\) and counit
+\(\epsilon \colon FG \rightarrow 1_{\cat{D}}\). 
+
+\begin{Lemma}
+  \label{lem:subcat-unit-mono-closure}
+  Let \(\cat{A}\) be the full subcategory of \(\cat{C}\) whose
+  objects are \(C\) such that the unit
+  \(\eta_{C} \colon C \rightarrow GFC\)
+  is a monomorphism. If there exists a monomorphism \(m \colon C
+  \rightarrow GD\), then \(C \in \cat{A}\).
+\end{Lemma}
+
+\begin{proof}
+  %Notice that if \(m\) is mono and \(u \cdot v \)
+  Assume we have the situation as stated above, and morphisms \(f,g
+  \colon B \rightarrow C\) such that \(\eta_{C}f = \eta_{C}g\). By adjointness, there
+  exists a unique morphism \(\tilde{m} \colon FC \rightarrow D\) such that
+  \(G\tilde{m}\cdot\eta_{C} = m\), so \(G\tilde{m}\cdot\eta_{C} \cdot f = m
+  f = G\tilde{m}\cdot\eta_{C} \cdot g = m g\). As \(m\) is monic, \(m f =
+  m g\), so \(f = g\).
+
+  Thence \(\eta_{C}\) is a monomorphism and so \(C \in \cat{A}\).
+  %Now, \(G\tilde{m}\eta_{C} f = G\tilde{m}\eta_{C} g\)
+\end{proof}
+
+
+\begin{Prop}
+  \label{prop:orthog-reflective-subcat}
+  Assume \(\cat{C}\) has a (regular epi, mono) factorisation system
+  %, that is, every morphism in \(\cat{C}\) factors as a (e, m),
+  and \(\cat{A}\) is closed under the monomorphisms 
+  in the manner described in
+  Lemma~\ref{lem:subcat-unit-mono-closure}.
+  Then \(\cat{A}\) is a regular epi-reflective
+  subcategory of \(\cat{C}\), with reflector given by the regular epi
+  component of the (regular epi, mono) factorisation of the
+  unit of the adjunction \eqref{eq:adj-GF}.
+\end{Prop}
+
+\begin{proof}
+  Let \(X\in \cat{C}\) and let
+  \begin{equation}
+    \label{eq:27}
+    \cd{
+      {X} \ar[rr]^-{\eta_{X}}
+      \ar[dr]_-{e_{X}} & &
+      {GFX}  \\
+      &
+      \ar[ur]_-{m_{X}}
+      {\overline{X}}
+    }
+  \end{equation}
+  be the (regular epi, mono)
+  %(strong epi, mono)
+  factorisation of \(\eta_{X}\).   We will first show that the inclusion of
+  \(\cat{A}\) has an adjoint by showing that for each \(X \in
+  \cat{C}\), the component \(e_{X}\) satisfies the universal property
+  of the unit. That is to say, if \(Y\in \cat{A}\) and there exists \(f \colon X
+  \rightarrow Y\), there is a unique extension of \(f\) along \(e_{X}\).
+  Consider the following diagram:
+  \begin{equation}
+    \label{eq:28}
+    \cd{
+      {X} \ar[rr]^-{f}
+      \ar[d]_-{e_{X}} & &
+      \ar[d]^-{\eta_{Y}}
+      {Y}  \\
+      {\overline{X}} \ar[r]_-{m_{X}}
+      \ar@{-->}[urr]^-{}
+      &
+      {GFX} \ar[r]_-{GFf} & {GFY}
+    }\rlap{ .}
+  \end{equation}
+  Note that the outer rectangle commutes by naturality of \(\eta\),
+  and that the morphism indicated by the dotted line exists uniquely
+  as
+  \(\eta_{Y}\) is in \(\mathscr{M}
+  \) and \(e\) is in \(\mathscr{E}
+  \) and are thus orthogonal. We now show there is a family of maps
+  which form the components of the counit, which must invert each
+  \(e_{\overline{X}}\). Observe we have a commuting diagram
+  \begin{equation}
+    \label{eq:32}
+    \cd{
+      {\overline{X}} \ar[r]^-{e_{\overline{X}}} \ar[d]_{1} &
+      {\overline{\overline{X}}} \ar[d]^{m_{\overline{X}}} \ar@{-->}[dl]_-{p} \\
+      {\overline{X}} \ar[r]_-{\eta_{\overline{X}}} \ar[d]_-{e_{\overline{X}}} &
+      {GF\overline{X}} \ar[d]^-{1}\\
+      {\overline{\overline{X}}} \ar[r]_-{m_{\overline{X}}} & {GF\overline{X}}
+    }\rlap{ ,}
+  \end{equation}
+  where again, \(p\) exists uniquely by the orthogonality of \(\eta_{\overline{X}}
+  \) and \(e_{\overline{X}}\in 
+  \). So
+  \(p e_{\overline{X}} = 1_{\overline{X}}\), and
+  \(m_{\overline{X}} e_{\overline{X}} p = m_{\overline{X}}\) and as \(m_{\overline{X}}\) is mono,
+  \(e_{\overline{X}} p = 
+  1_{\overline{X}}\). 
+
+  Thus, the inclusion of \(\cat{A}\) into
+  \(\cat{C}\) has an adjoint, with unit \(e_{X} \colon X \rightarrow
+  \overline{X}\) consisting of the regular epi component of
+  the factorisation of \(\eta_{X}\). By construction, each \(e_{X}\)
+  is regular epi and so indeed, \(\cat{A}\) is a regular epi-reflective subcategory of \(\cat{C}\) as claimed.
+\end{proof}
+
+There are some properties of reflective subcategories we will find
+useful:
+
+\begin{enumerate}[label=(\roman*), ref= (\roman*)]
+\item
+  \label{it:reflection-monadic}
+  A full subcategory is reflective if and only if its inclusion is monadic
+  (and thus must have a left
+  adjoint);
+\item
+  \label{it:reflection-idempotent}
+  In particular, its
+  induced monad is idempotent;
+
+\item
+  \label{it:reflection-lims}
+  The inclusion functor creates all limits that exist in its
+  codomain category;
+\item
+  \label{it:reflection-colims}
+  The domain category inherits colimits from the codomain
+  category by precomposing with the reflector (unit);
+\item
+  \label{it:reflection-co-completeness}
+  If the codomain category is closed under some class of colimits, so
+  is the domain category. 
+\end{enumerate}
+
+\section{Syntactic categories and functorial semantics}
+\label{sec:via-syntactic-cats}
+
+\subsection{Syntactic category of a concrete clone}
+\label{sec:clone-cat}
+
+\begin{Defn}[Syntactic category of a concrete clone]
+  \label{def:cc-abstract-clone}
+  Let \(\mathscr{T} 
+  \subseteq \O_{V}\) be a concrete clone. We define a
+  subcategory \(\cat{T}\) of $\cat{Set}_f$ category \(\cat{T}\) from \(\mathscr{T} 
+  \) as follows:
+  \begin{itemize}
+  \item \emph{Objects} $[n,V]$ are sets of the form $V^n$ for some $n
+    \in \mathbb{N}$;
+  \item A \emph{morphism} $g \colon [n,V] \rightarrow [m,V]$ is a
+    function $V^n \rightarrow V^m$ for which each of the projections $\pi_1 g, \dots, \pi_m g \colon V^n
+    \rightarrow V$ is in $\mathscr{T}(n)$.
+  \item \emph{Composition} of morphisms is given simply by composition of functions.
+  \end{itemize}
+\end{Defn}
+
+\begin{Prop}
+  \label{prop:cc-cat}
+  The category $\cat{T}$ of the preceding definition is 
+  closed under finite products in $\cat{Set}_f$, and hence is
+  equivalent to a
+  Lawvere theory. The faithful inclusion functor $\M \colon \cat{T}
+  \rightarrow \cat{Set}$ exhibits $V$ as a $\cat{T}$-algebra.
+\end{Prop}
+
+
+\subsection{Syntactic category of a relational clone}
+\label{sec:coclone-to-clone}
+
+In this section, assume \(\mathscr{R} 
+\) is a relational clone on a
+(finite) set \(V\), that
+is, \(\mathscr{R} \subseteq \R_{V}
+\) and \(\Inv\Pol(\mathscr{R}
+) = \mathscr{R}
+\).  As clones of operations and clones of relations on \(V\) are in bijection,
+there is a unique clone \(\mathscr{T}
+\subseteq \O_{V}
+\) such that \(\Pol(\mathscr{R}
+) = \mathscr{T}
+\) and \(\Inv(\mathscr{T}
+) = \mathscr{R}
+\). Also assume that \(\cat{T}\) is the syntactic category (finite product
+theory) constructed from \(\mathscr{T}
+\) as described in Subsection~\ref{sec:clone-cat}. 
+
+\begin{Defn}[Syntactic category from a relational clone]
+  \label{def:syn-cat-cc}
+  Given \(\mathscr{R}\), we define the category \(\cat{S}\) as follows:
+  \begin{itemize}
+  \item \emph{Objects} are pairs $(k, S)$ where $k \in
+    \mathbb{N}$ and $S \in \mathscr{R}(k)$;
+
+  \item \emph{Morphisms} $f \colon (k,S)
+    \rightarrow (n,T)$ is a function $f \colon S \rightarrow T$ for
+    which the graph \[\mathrm{gr}(f) \defeq \{(x, y) \in V^{k} \times V^n : x \in S,
+      y \in T \text{ and } f(x) = y\}\] is in $\mathscr{R}(k+n)$.
+    
+  \item \emph{Composition of morphisms} are given by
+    composition of functions; identity morphisms are given by
+    identity functions.
+  \end{itemize}
+\end{Defn}
+
+The following two lemmas show that this is
+indeed well-defined:
+
+\begin{Lemma}
+  \label{lem:diag-rel}
+  Given any \(k\)-ary relation \(T \in \mathscr{R}(n)\), the diagonal
+  relation $\Delta_T = \{(x,x) \in V^n \times V^n : x \in
+  T\}$ is in $\mathscr{R}(n+n)$.
+\end{Lemma}
+
+\begin{proof}
+  We use Theorem~\ref{thm:closure-coclone}: Closure under the trivial
+  relations and binary product means that \(\Delta_{V^{n}}\) and \(T T\) are \((n+n)\)-ary relations in
+  \(\mathscr{R}\). Then the diagonal relation on \(T\) can be written as
+  \begin{equation}
+    \label{eq:13}
+    \Delta_{T} = T T \cap \Delta_{V^{n}},
+  \end{equation}
+  which is in \(\mathscr{R}\) as it is closed under intersection of relations of the same arity.  % 
+\end{proof}
+
+
+
+\begin{Lemma}
+  \label{lem:27}
+  Assume \(S \in \mathscr{R}(k)\), \(T \in \mathscr{R}(n)\), \(R \in
+  \mathscr{R}(m)\), and that the
+  graphs \(\gr (g)\) and \(\gr (f)\) of functions \(g \colon S
+  \rightarrow T\) and \(f \colon T \rightarrow R\) are relations in
+  \(\mathscr{R}(k+n)\) and \(\mathscr{R}(n+m)\) respectively. Then
+  \(\gr( f \cdot g)\) is in \(\mathscr{R}(k+m) 
+  \).
+\end{Lemma}
+
+\begin{proof}
+  We use the closure of \(\mathscr{R} 
+  \) under concatenation, the diagonal relations, intersection, and
+  projection (Theorem~\ref{thm:closure-coclone}). We have that 
+  \( (S \Delta_{T}  R) \cap (\gr (g)  \gr (f)) \) is
+  in \(\mathscr{R} (k+2n+m)
+  \), and is equal to
+  \begin{equation*}
+    \label{eq:13}
+    \{(a,b,b,c) \in V^k \times V^n \times V^n \times V^m : (a,b) \in \mathrm{gr}(g), (b,c) \in \gr(f)
+  \end{equation*}
+  Projection onto the first and fourth coordinates give the graph of
+  \(f\cdot g\).
+\end{proof}
+
+
+\begin{Lemma}
+  \label{lem:inclusion-morphisms-cc}
+  Let \((k,S)\) and \((k,T)\) be objects in \(\cat{S}\). If
+  \(T\subseteq S\), then the inclusion map lifts to a morphism \((k,T) \rightarrow
+  (k,S)\) in \(\cat{S}\).
+\end{Lemma}
+
+\begin{proof}
+  The graph of an inclusion is simply the diagonal of the domain, so this is a corollary of Lemma~\ref{lem:diag-rel}.
+\end{proof}
+
+\begin{Lemma}
+  \label{lem:gr-functions-powers}
+  Let \(g \colon [k] \rightarrow [n]\) be a function. Then
+  the graph of \(V^{g} \colon V^{n} \rightarrow V^{k}\) is in \(\mathscr{R}\).
+\end{Lemma}
+
+\begin{proof}
+  A subset of \(V^{m}\)
+  defined only by equality of coordinates corresponds to an
+  equivalence relation on \(m\), which by
+  Theorem~\ref{thm:closure-coclone} is in \(\mathscr{R}\) as it is
+  closed under the generalised diagonal relations. Explicitly, there is an equivalence relation \(\theta\) on \([n]+[k]\) whose equivalence
+  classes are given by \(g^{\ast}(j) + \{j\}\) for each \(j\in [n]\). We have
+  \begin{flalign*}
+    \label{eq:19}
+    \gr(V^{g}) & = \{(\alpha, \beta) \in V^{n}\times V^{k} : \beta = \alpha \cdot g \} \\
+    & = \{\gamma \in V^{n+k} : \gamma(i) = \gamma(g(i)) \} \\
+    & = \{\gamma \in V^{n+k} : (\forall (i,j)\in \theta) \;\gamma(i) = \gamma(j) \} \\
+    & = \Delta_{\theta}^{n+k},
+  \end{flalign*}
+  which is a generalised diagonal relation, and so is in
+  \(\mathscr{R}\).
+\end{proof}
+
+
+\begin{Lemma}
+  \label{lem:projections-morphisms-cc}
+  Let \((k,S)\) and \((n,T)\) be objects in \(\cat{S}\). The graphs of
+  the projections \(\pi_{1} \colon T \times S \rightarrow T\) and
+  \(\pi_{2} \colon T \times S \rightarrow S\) are in \(\mathscr{R}\).
+\end{Lemma}
+
+\begin{proof}
+  Let \(i_{n} \colon [n] \rightarrow [n+k]\) be the coprojection map
+  in \(\cat{Set}_{f}\). We have that \(V^{i_{n}} \colon V^{n+k}
+  \rightarrow V^{n}\) is the same as the evaluation map \(V^{n}\times V^{k}
+  \rightarrow V^{n}\), and \(\pi_{1}\) is the restriction of this
+  evaluation map to \(T \times S\). Explicit calculations give  
+  \begin{flalign*}
+    \gr(\pi_{1}) & = \gr(V^{i_{n}}) \cap TST \\
+    & = \gr(V^{i_{n}}\upharpoonright_{T\times S \times T}),
+    %\{(a,b,c) \in T \times S \times T : a = c\} \\
+    %& = \{(\alpha,\beta) \in V^{n+k+n} : \beta = \alpha i_{n}\}
+  \end{flalign*}
+  which is in \(\mathscr{R}\) by Theorem~\ref{thm:closure-coclone}.
+  %Lemma~\ref{lem:gr-functions-powers-restricted}.
+  Taking the coprojection \(i_{k}\) instead of \(i_{n}\) gives the
+  desired result for \(\pi_{2}\).
+\end{proof}
+
+
+\begin{Lemma}
+  \label{lem:factorisation}
+  %Let \((k,S)\) and \((n,T)\) be objects in \(\cat{S}\).
+  Any morphism \((g,n+k) \colon (n,T) \rightarrow
+  (k,S)\) in \(\cat{S}\) admits a factorisation into three morphisms,
+  whose underlying functions consist of a bijection,
+  followed by an inclusion, followed by a projection, as in the diagram
+  \begin{equation}
+    \label{eq:3-factorisation}
+    %\xymatrixcolsep{4pc}
+    %\xymatrixrowsep{3pc}
+    \cd{
+      {S} \ar[d]_-{(\pi_{1}i)^{-1}} \ar[r]^-{g} & {T} \\
+      {\gr(g)} \ar[r]^-{i} &  {S \times T} \ar[u]_-{\pi_{2}}
+    }\rlap{ .}
+  \end{equation}
+\end{Lemma}
+
+\begin{proof}
+  Consider the following diagram in \(\cat{Set}_{f}\):
+  \begin{equation}
+    \label{eq:3-factorisation-2-triangle}
+    \xymatrixcolsep{1.4pc}
+    \xymatrixrowsep{1.6pc}
+    \cd{
+      && {S} \ar[ddll]_-{1_{S}} \ar[d]^-{} \ar[ddrr]^-{g} && \\
+      && {\gr(g)} \ar[d]^-{i} && \\
+      {S} && \ar[ll]_-{\pi_{1}} {S \times T} \ar[rr]^-{\pi_{2}} && {T}
+    }\rlap{ .}
+  \end{equation}
+  Note that the inclusion \(i\) composed with the projection
+  \(\pi_{1}\) is a bijection and so has an inverse \((\pi_{1}
+  i)^{-1}\), appearing as the unlabelled morphism in the diagram above.
+  Also, \(\gr(\pi_{1} i)\) is in \(\mathscr{R}(n+k+k)\) as
+  inclusions are in \(\mathscr{R}\) by Lemma~\ref{lem:inclusion-morphisms-cc}, and
+  (binary) projections are in \(\mathscr{R}\) by Lemma~\ref{lem:projections-morphisms-cc}.
+  Since \(\gr(\pi_{1} i^{-1})\) may be obtained from \(\gr(\pi_{1} i)\) by applying a
+  permutation of coordinates, it is in \(\mathscr{R}\) by
+  Theorem~\ref{thm:closure-coclone}. It is easily seen that
+  diagram~\eqref{eq:3-factorisation-2-triangle} commutes, thus giving the
+  underlying diagram of functions of a diagram in
+  \(\cat{S}\). The right hand triangle gives the factorisation of \((g,n+k) \colon (n,T) \rightarrow
+  (k,S)\) we sought.
+\end{proof}
+
+Notice that
+for each $(k, S)$ in $\cat{S}$, the set
+$S$ has canonical structure of a $\mathscr{T}$-algebra as a subalgebra
+of \(\mathscr{T}
+\)-algebra $V^k$. 
+
+\begin{Lemma}
+  \label{lem:image-is-rel}
+  Given objects \((k,S)\) and \((n,T)\) in \(\cat{S}\) and a function
+  \(h \colon S \rightarrow T\) which preserves the operations in \(\Pol(\mathscr{R}
+  ) = \mathscr{T}
+  \), the image of \(h\), denoted \(h_{!}(S)\),
+  %, denoted \(h_{!}(S)\),
+  is the underlying set of an object \((n,h_{!}(S))\) in \(\cat{S}\). 
+\end{Lemma}
+
+\begin{proof}
+  %The image of \(h\) is the set \(h_{!}(S)\).
+  We have \(h_{!}(S) \subseteq 
+  T\subseteq V^{n}\) and \(h_{!}(S)\) is closed under the operations
+  of \(\Pol(\mathscr{R}
+  )\) on $T$. By Corollary~\ref{cor:compatibility-clone-coclone}, \(h_{!}(S)\) is an
+  \(n\)-ary relation in \(\mathscr{R}\).
+\end{proof}
+
+
+\begin{Lemma}
+  \label{lem:mor-iff-preserves-ops}
+  Given objects \((k,S)\) and \((n,T)\) in \(\cat{S}\), a function
+  \(h \colon S \rightarrow T\) is the underlying function of a
+  morphism \((k,S) \rightarrow (n,T)\) in \(\cat{S}\) if and only if
+  it preserves the operations in \(\Pol(\mathscr{R}
+  )\).
+\end{Lemma}
+
+\begin{proof}
+  Let \((k,S)\) and \((n,T)\) be objects in \(\cat{S}\) and assume the
+  graph of the function \(g \colon S \rightarrow T\) is in \(\mathscr{R}\). We will
+  use Lemma~\ref{lem:factorisation}.
+
+  
+  Recall that Lemma~\ref{lem:compatibility} says that a relation
+  \(S \subseteq V^{k}
+  \) is
+  compatible with an operation on \(V\) just when it is a subset
+  closed under that operation, that is, a subalgebra. So an object
+  \((k,S)\) 
+  in \(\cat{S}\) admits an inclusion \(r \colon S \rightarrow V^{k}\)
+  in \(\cat{Set}_{f}\) which preserves the operations in \(\Pol(\mathscr{R}
+  )\). For any \(R \subseteq S  \subseteq V^{k}
+  \), the inclusion \(R \rightarrow S
+  \) commutes with the inclusions
+  of \(S\) and \(R\) into \(V^{k}\), and so must also preserve the
+  operations in \(\Pol(\mathscr{R}
+  )\) (by Lemma~\ref{lem:inclusion-morphisms-cc} all such inclusions are
+  morphisms in \(\cat{S}\)).
+  
+  
+  Also, given \(r \colon S \rightarrow V^{k}\) and \(q \colon T
+  \rightarrow V^{n}\) are the canonical inclusions, then \(r\times q \colon S
+  \times T  \rightarrow V^{k} \times V^{n} \) is also the canonical
+  inclusion of the concatenation \(ST\), meaning the algebra structure on
+  \(S \times T\) is pointwise. So the projections \(\pi_{1} \colon T
+  \times S \rightarrow T\) and 
+  \(\pi_{2} \colon T \times S \rightarrow S\) preserve the operations in \(\Pol(\mathscr{R}
+  )\).
+
+  Consider diagram~\eqref{eq:3-factorisation-2-triangle}. We have shown that
+  the inclusion \(i\) and projections preserve the operations in \(\Pol(\mathscr{R}
+  )\), so it remains to show that \(\pi_{1}i^{-1}\) does. But the
+  inverse of a function that preserves the operations in \(\Pol(\mathscr{R}
+  )\) must also
+  preserve the operations in \(\Pol(\mathscr{R}
+  )\). We may now conclude that \(g\) does also.
+  %{\blue needs some editing, at least.}
+  %Every morphism in \(\cat{S}\) can be factored as
+  %\begin{equation*}
+  %  \cd{
+  %  {S} &  
+  %}
+  %\end{equation*}
+  \smallskip
+
+  
+  Conversely, assume \(g \colon S \rightarrow T\) is a function
+  preserving the operations in \(\Pol(\mathscr{R})\). We need to
+  show that \(\gr(g)\) is in \(\mathscr{R}\). Note that we have a span in
+  \(\cat{Set}_{f}\) whose right leg is \(g\) and whose
+  left leg is \(1_{S}\), and from the universal property of the
+  product, a unique function \(h \colon S \rightarrow S \times T\)
+  which commutes with the projections. Now, the projections preserve
+  the operations in \(\Pol(\mathscr{R})\), as do  \(\pi_{1}h = 1_{S}\)
+  and \(\pi_{2}h = g\) by assumption. As we have algebra structure (from
+  \(\Pol(\mathscr{R})\)) on \(S \times
+  T\) which is pointwise, \(h\) must preserve the
+  operations in \(\Pol(\mathscr{R})\). The image of \(h\) is in
+  \(\mathscr{R}\) by Lemma~\ref{lem:image-is-rel}, and is equal to the
+  graph of \(g\). We conclude that \((k+n,\gr(g))\) is in \(\cat{S}\) as required.
+\end{proof}
+
+\subsection{\(\Pol\)-\(\Inv\) and categories of models}
+\label{sec:syntactic-categories}
+
+Recall we have a finite product theory \(\cat{T}\) defined from the clone of operations
+\(\mathscr{T} =
+\Pol(\mathscr{R})\), and a model \(\mathcal{M}\) endowing \(V\) with
+its canonical \(\cat{T}\)-algebra structure. We now characterise \(\cat{S}\) as equivalent to a certain
+subcategory of the 
+category of finite
+product preserving functors
+\(\FP(\cat{T},\Set)\), that is, the category of \(\cat{T}\)-models.
+
+\begin{Prop}
+  \label{prop:forget-S-factorisation}
+  Let \(\mathrm{G}\) be the forgetful functor from
+  the category of \(\cat{T}\)-models to \(\cat{Set}\) and \(\mathrm{U}
+  \) the forgetful functor \(\cat{S}\) to \(\Set\). There is a full and faithful functor \(\mathrm{I}\) making the following diagram of functors
+  commute:
+  \begin{equation}
+    \label{eq:incl-S}
+    \cd{
+      {\cat{S}} \ar[d]_-{\mathrm{I}
+      } \ar[dr]^-{\mathrm{U}
+      } & \\
+      {\FP(\cat{T},\Set)} \ar[r]_-{\mathrm{G}
+      } & {\Set}
+    }\rlap{ .}
+  \end{equation}
+\end{Prop}
+
+\begin{proof}
+  It suffices to prove that given \(S \subseteq V^{k}
+  \), \(T \subseteq V^{n}
+  \) and a function \(h \colon S \rightarrow
+  T\) we have:
+  \begin{itemize}
+  \item \(S
+    \) is the underlying set of an object \((k,S)\) in \(\cat{S}\)
+    implies it is the underlying set of a subalgebra of
+    \(\mathcal{M}^{k}\) (and likewise for \((n,T)\));
+  \item Given the above holds, the function \(h\) is the underlying function of a
+    morphism in \(\cat{S}\) if and only if it is homomorphism of
+    \(\cat{T}\)-algebras. 
+  \end{itemize}
+  The underlying set of \(\mathcal{M}^{k}\) is \(V^{k}\) for all
+  \(k\in \mathbb{N}
+  \), thus the first point is equivalent to the characterisation of relations in
+  \(\mathscr{R}\) as subalgebras of finite powers of \(V\) under the
+  pointwise algebra structure given by \(\mathscr{T}
+  \) --- this is
+  Corollary~\ref{cor:compatibility-clone-coclone}. The second point is
+  Lemma~\ref{lem:mor-iff-preserves-ops}. 
+\end{proof}
+
+
+\begin{Lemma}
+  \label{lem:S-subcat-T-alg}
+  An object lies in the essential
+  image of \(\mathrm{I}
+  \) if and only if it admits a monomorphism into a finite power
+  of~\(\mathcal{M}\). 
+\end{Lemma}
+
+\begin{proof}
+  The image factorisation of a monomorphism into a finite power of
+  \(\mathcal{M}\) gives an isomorphism with an object in the image of \(\mathrm{I}
+  \).
+\end{proof}
+
+Taking our inspiration from this result, we define the following:
+\begin{Defn}
+  \label{def:coclone-of-obj}
+  Let \(\mathcal{M}\) be an object in a category \(\cat{C}\) with finite
+  products. We define \(\cat{Coclo(\mathcal{M})}\) as the full
+  subcategory of \(\cat{C}\) whose objects consist of subobjects of finite
+  powers of \(\mathcal{M}\).
+\end{Defn}
+
+The equivalence \(\cat{S}\simeq \cat{Coclo}(\mathcal{M})\) makes
+proving the next lemma more straightforward than using the definition
+of \(\cat{S}\) alone.
+\begin{Lemma}
+  \label{lem:syntactic-cc-limits}
+  We have that \(\cat{S}\simeq \cat{Coclo}(\mathcal{M})\) has finite limits.
+\end{Lemma}
+
+\begin{proof}
+  The algebra
+  \(\mathcal{M}^{0}\) is the terminal object in \(\FP(\cat{T},\Set)\),
+  and is in the essential image of \(\mathrm{I}
+  \). If
+  \(\iota_{A} \colon A \hookrightarrow \mathcal{M}^{k}\) and \(\iota_{B} \colon B
+  \hookrightarrow \mathcal{M}^{n}\) are inclusions of subalgebras in
+  \(\FP(\cat{T},\Set)\), then we have an inclusion \(\iota_{A}\times \iota_{B} \colon
+  A\times B \hookrightarrow \mathcal{M}^{k}\times \mathcal{M}^{n}\) in \(\cat{Coclo}(\mathcal{M})\)
+  (This corresponds to the fact that \(\mathscr{R}\) is closed under
+  concatenation). Since \(\cat{Coclo}(\mathcal{M})\) is a full
+  subcategory, this means it has finite products.
+  Also, any equaliser of a parallel pair \(A\rightrightarrows B\) with
+  \(\iota_{A}\) and \(\iota_{B}\) (as given above) will admit a monomorphism into
+  \(\mathcal{M}^{k}\) by composing with \(\iota_{A}\).
+\end{proof}
+
+From Gabriel-Ulmer duality, we obtain a characterisation of the
+category of models of \(\cat{S}\):
+\begin{Cor}
+  \label{cor:coclone-models-lfp}
+  Given the syntactic category \(\cat{S}\) defined from a relational
+  clone \(\mathscr{R}\), the restricted presheaf category \(\FL(\cat{S},\Set)\) of finite
+  limit preserving functors is locally finitely presentable.
+\end{Cor}
+
+We now consider how to recover the finite product theory \(\cat{T}\). Note that for each \(n\in \mathbb{N}
+\), the free algebra \(\cat{T}([n,V],\thg)\) is a subalgebra of
+\(\mathcal{M}^{V^{n}}\) as \(\mathscr{T}(n)
+\) is a subset of \(V^{V^{n}}\) compatible with each operation in \(\mathscr{T}
+\). Indeed, the free algebras on
+finitely many generators form a full subcategory of \(\cat{Coclo}(\mathcal{M})\). Thus there is an
+object \(\mathcal{W}\) in \(\FL(\cat{S}, \cat{Set})\) corresponding
+to the free algebra on one generator in
+\(\cat{Coclo}(\mathcal{M})\), and \([1,V]\) in \(\cat{T}\). It is now
+natural to make the following definition.
+
+\begin{Defn}
+  \label{def:clone-of-obj}
+  Let \(\mathcal{W}\) be an object in some category \(\cat{C}\) with finite
+  products. We define \(\cat{Clo(\mathcal{W})}\) as the full subcategory of
+  \(\cat{C}\) whose objects are finite powers of \(\mathcal{W}\).
+\end{Defn}
+
+\begin{Prop}
+  \label{prop:clo-coclo-equiv}
+  Given a complementary clone and coclone \(\mathscr{T} = \Pol(\mathscr{R}
+  )
+  \) and \(\mathscr{R} = \Inv(\mathscr{T}
+  )\) on a finite set \(V\), we have a finite product
+  theory \(\cat{T}\) and a finite limit theory \(\cat{S}\); Moreover, there is
+  an object \(\mathcal{W}\) in \(\FL(\cat{S},\Set)\) and an object
+  \(\mathcal{M}\) in \(\FP(\cat{T}, \cat{Set})\) such
+  that we have equivalences \(\cat{Clo(\mathcal{W})} \simeq \cat{T}\) and
+  \(\cat{Coclo(\mathcal{M})} \simeq \cat{S}\).
+\end{Prop}
+
+\subsection{Categorical formulation}
+\label{sec:categ-form}
+
+We now consider our setting entirely in categorical terms.
+\begin{Defn}[Locally finite category]
+  \label{def:lfc}
+  A category is called \emph{locally
+    finite} if it has finite homsets.
+\end{Defn}
+%.
+This terminology is entirely consistent with the definition of locally
+  finite varieties in universal algebra, which are varieties in which
+  finitely generated free algebras are finite. Indeed, locally finite
+  varieties are precisely those which are models of a locally finite
+  (finite product) theory. We therefore have:
+  %.
+\begin{Prop}
+  \label{prop:concr-clo-loc-fin-theory}
+  A finite product theory is equivalent to the syntactic category of a
+  concrete clone on a finite set if and only if it is a locally finite category. 
+\end{Prop}
+
+\begin{Prop}
+  \label{prop:ct-concr-clo}
+  Let \(\cat{T}\) be a finite product (Lawvere) theory which is a
+  locally finite category. Assume we have a
+faithful finite product preserving functor \(\mathcal{M} \colon
+\cat{T} \rightarrow \Set\).
+Then \(\cat{T}\) is equivalent to \(\cat{Clo}(\mathsf{W})\) for some
+\(\mathsf{W}\) in the category
+of models of \(\cat{Coclo}(\mathcal{M})\). Moreover, we have 
+\(\FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathrm{Y}
+  \mathcal{M}, \iota(\thg)) \cong \mathcal{M}\) where \(\iota\)
+  denotes the inclusion and \(\mathrm{Y}
+  \) is the Yoneda embedding functor.
+\end{Prop}
+
+To say we have a concrete clone on a finite set \(V\) is to say we
+have a finite
+product (Lawvere) theory \(\cat{T}\) which is a locally finite category, and a
+faithful finite product preserving functor \(\mathcal{M} \colon \cat{T} \rightarrow \Set\).
+
+Take
+the full subcategory
+%\(\cat{K} \defeq \cat{Coclo}(\mathcal{M})\)
+\( \cat{Coclo}(\mathcal{M})\)
+of \(\FP(\cat{T},
+\cat{Set})\); it has finite limits. For any \(A \in
+\FP(\cat{T},\Set)\), we can precompose
+%\(\mathcal{W}\) such that
+the hom-functor with the inclusion, as in the diagram:
+\begin{equation}
+  \label{eq:coclo-model}
+  \xymatrixcolsep{6pc}
+  \xymatrixrowsep{3.5pc}
+  \cd{
+    %{\cat{T}^{\mathrm{op}}} \ar[r]^-{} \ar[dr]_-{\mathrm{Y}
+    %} & 
+    {\cat{Coclo}(\mathcal{M})} \ar[d]_-{\mathrm{I}
+    } \ar[dr]
+    %^-{\mathcal{W}}
+    & \\
+    %&
+    {\FP(\cat{T},\Set)} \ar[r]_-{\FP(\cat{T},\Set)(
+      %\mathrm{Y}\aone
+      A,\thg)
+    } & {\Set}
+    \rlap{ .}
+  }
+\end{equation}
+This functor is a model of \(\cat{Coclo}(\mathcal{M})\); as a full and faithful functor, \(\mathrm{I}
+\) preserves limits, as do covariant
+hom-functors, so their composition certainly preserves finite limits.
+Let \(\mathrm{Y}
+\colon \cat{T} \rightarrow \FP(\cat{T},\Set)\) be the Yoneda
+embedding, with \(\mathrm{Y}\aone\) thus denoting the free algebra on
+one generator (following the usual convention with finite product
+theories). Take diagram~\eqref{eq:coclo-model} with \(A =
+\mathsf{Y}\aone\).
+%This is simply the
+%forgetful functor from \(\FP(\cat{T},\Set)\) to \(\cat{Set}\), so for any monomorphism \(\mathcal{A}\rightarrow \mathcal{M}^{k}\), we have a monomorphism
+%\(\FP(\cat{T},\Set)(\mathrm{Y}
+%\aone,\mathcal{A}) \rightarrow V^{k}\).
+
+We now write \(\mathsf{W} \defeq \FP(\cat{T},\Set)(\mathrm{Y}
+\aone,\mathrm{I}
+(\thg))\).
+%and observe that \(\mathsf{W}\) is an object in the category
+%\(\FL(\cat{Coclo}(\mathcal{M}),\Set)\). 
+Take \(\cat{Clo}(\mathsf{W})\) in
+\(\FL(\cat{Coclo}(\mathcal{M}),\Set)\).  In particular, limit
+preserving functors, preserve finite products, so for any \(\mathsf{X} \in
+\FL(\cat{Coclo}(\mathcal{M}),\Set)\), we can precompose
+%\(\mathcal{W}\) such that
+the hom-functor with the inclusion and obtain a model of the finite
+product theory \(\cat{Clo}(\mathsf{W})\):
+\begin{equation}
+  \label{eq:clo-model}
+  \xymatrixcolsep{8pc}
+  \xymatrixrowsep{3.5pc}
+  \cd{
+    {\cat{Clo}(\mathsf{W})}
+    \ar[d]_-{\iota} \ar[dr]^-{}
+    %{\cat{K}(\thg,\mathcal{M})}
+    & \\
+    {\FL(\cat{Coclo}(\mathcal{M}),\Set)} \ar[r]_-{\FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathsf{X}, \thg)
+    } & {\Set}
+  }\rlap{ .}
+\end{equation}
+%we have a model of the theory \(\cat{Clo}(\mathsf{W})\),
+Take \(\mathsf{X}\) in diagram~\eqref{eq:clo-model} to be \(\mathrm{Y}(\mathcal{M})
+\), where we use \(\mathrm{Y}
+\) again to denote the Yoneda embedding. We have
+\(\cat{Clo}(\mathsf{W}) \simeq \cat{T}\).
+Moreover,
+\begin{equation}
+  \label{eq:M-equation}
+  \FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathrm{Y}
+  \mathcal{M}, \iota(\thg)) \cong \mathcal{M}
+\end{equation}
+and
+\begin{equation}
+  \label{eq:W-equation}
+    \FP(\cat{Clo}(\mathsf{W}),\Set)(\mathrm{Y}
+  \mathsf{W},\mathrm{I}
+  (\thg)) \cong \mathsf{W} \rlap{ .}
+\end{equation}
+%\(\FL(\cat{Coclo}(\mathsf{W}),\Set)( \mathrm{Y}
+%\mathcal{M}, \iota(\thg)) \cong \mathcal{M}\) and \(\FP(\cat{Clo}(\mathsf{W}),\Set)(\mathrm{Y}
+%\mathsf{W},\mathrm{I}
+%(\thg)) = \mathsf{W} \).
+Let \(N\) be equal to the
+expression on the left-hand side of~\eqref{eq:M-equation}. It is
+straightforward that
+\(\cat{Coclo}(N) \simeq \cat{Coclo}(\mathcal{M})\). Therefore we can
+go from `categorical concrete clone' to `categorical coclone' back to
+`categorical concrete clone', and get the same thing up to
+isomorphism. It is less clear with what we have so far how to go from `categorical coclone' back to
+`categorical concrete clone' then back again and get essentially the
+same thing. How we can have this work will be made clear in
+Section~\ref{sec:duality}. We will first find a presentation of the
+finitely presentable objects in the category of models of
+\(\cat{Coclo}(\mathcal{M})\). This involves looking at the category of
+structures over the relational signature obtained from the relational clone \(\mathscr{R}\).
+
+\section{Presentations via signatures}
+\label{sec:via-sig-structures}
+
+
+\subsection{Setting: \(\Omega\)-algebras and \(\Psi\)-structures}
+\label{sec:sig-setting}
+
+
+We will continue to consider a clone of operations \(\mathscr{T}
+\subseteq \O_{V}\) and a clone of
+relations \(\mathscr{R}
+\subseteq \R_{V}\) on a finite set \(V\) such that  \(\Pol(\mathscr{R}
+) = \mathscr{T}
+\) and \(\Inv(\mathscr{T}
+) = \mathscr{R}
+\). From the previous section, we also have the finite product theory
+\(\cat{T}\) constructed from \(\mathscr{T}
+\), and finite limit theory \(\cat{S}\) constructed from \(\mathscr{R}\).
+
+In addition, we have a (purely operational) signature \(\Omega\) consisting of
+operation symbols and arities assigned from \(\mathscr{T}
+\). Similarly, we have a (purely relational) signature \(\Psi\) consisting of
+relation symbols and arities from \(\mathscr{R}
+\). 
+
+\begin{Defn}[The category \(\cat{\Omega St}\)]
+  \label{def:Om-str}
+  We define $\cat{\Omega St}$ as the category whose objects \(\mathsf{A}\) are
+  sets \(A\) endowed with an operation
+  \(\dbr{\tau} \colon A^{n} \rightarrow A\) for each \(\tau\in \mathscr{T}(n)\), and whose
+  morphisms are maps commuting with the interpretations. We write
+  \(\cat{\Omega St}_{f}\) for the category of finite
+  \(\Omega\)-structures (\(\Omega\)-algebras). Note that \(\cat{\Omega St}_{f}\)
+  has finite products, where the interpretations of operations are
+  given pointwise.
+\end{Defn}
+
+\begin{Defn}[The category \(\cat{\Psi St}\)]
+  \label{def:psi-str}
+  We define \(\cat{\Psi St}\) as the category whose objects \(\mathsf{X}\) are
+  sets \(X\) endowed with a relation \(\dbr{S} \subseteq X^{k}\) for each
+  \(S\in \mathscr{R}(k)
+  \), and whose morphisms are maps which preserve the
+  relations. Note that we write \(\cat{\Psi St}_{f}\) for the category
+  of \(\Psi\)-structures with finite underlying sets, and that this
+  category has finite products where the
+  interpretation of relations is given (pointwise) by the cartesian product.
+\end{Defn}
+
+
+\begin{Defn}[\(\mathscr{R}
+  \) inside $\cat{\Omega St}$]
+  \label{def:rel-in-F-str}
+  We write $\mathsf{M}$ for the \(\Omega\)-structure \(\langle V;
+  \Omega \rangle\), that is, the object with underlying set $V$
+  and interpretation $\dbr{\tau} = \tau$. For any relation $S \in \mathscr{R}(k)$, its
+  compatibility with each operation in \(\mathscr{T}
+  \) means that we have a
+  \(\Omega\)-subalgebra
+  \begin{equation*}
+    \cd{
+      {\mathsf{S}\,} \ar@{^{(}->}[r]^-{\iota_{S}}
+      %\ar@{ >->}[r]^
+      & \mathsf{M}^{k} \rlap{ .}
+    }
+  \end{equation*}
+\end{Defn}
+
+
+
+\begin{Defn}[\(\mathscr{T}
+  \) inside $\cat{\Psi St}$]
+  \label{def:ops-in-R-str}
+  We write $\mathsf{W}$ for the \(\Psi\)-structure \(\langle V; \Psi
+  \rangle\), that is, the object with underlying set $V$
+  and interpretations $\dbr{S} = S$. For any \(n\)-ary operation
+  \(\tau \in \mathscr{T}
+  \), its compatibility with each relation in \(\mathscr{R}\) means that we
+  have a
+  \(\Psi\)-structure morphism
+  \begin{equation*}
+    \cd{
+      \mathsf{W}^{n} \ar[r]^-{\tau} & \mathsf{W}
+      \rlap{ .}}
+  \end{equation*}
+\end{Defn}
+
+It follows from Definition~\ref{def:rel-in-F-str} that $\mathsf{M}$ is an
+internal 
+\(\Psi\)-structure in $\cat{\Omega St}$, and it follows from Definition~\ref{def:ops-in-R-str}  that $\mathsf{W}$
+is an internal \(\Omega\)-structure (\(\Omega\)-algebra) in $\cat{\Psi St}$. Thus, we can lift the hom-functors
+\begin{equation*}
+  \cat{\Omega St}_{f}(\thg, \mathsf{M}) \colon \cat{\Omega St}_{f}^\mathrm{op} \rightarrow \cat{Set}_{f} \qquad \cat{\Psi St}_{f}(\thg, \mathsf{W}) \colon \cat{\Psi St}_{f} \rightarrow \cat{Set}_{f}^\mathrm{op}
+\end{equation*}
+to functors
+\begin{equation*}
+  \mathsf{M}^{(\thg)} \colon \cat{\Omega St}_{f}^\mathrm{op} \rightarrow
+  \cat{\Psi St}_{f} \qquad 
+  \mathsf{W}^{(\thg)} \colon \cat{\Psi St}_{f} \rightarrow
+  \cat{\Omega St}_{f}^\mathrm{op}\rlap{ .}
+\end{equation*}
+
+\begin{Lemma}
+  \label{lem:adj-M-W-lifted-homs}
+  We have $\mathsf{W}^{(\thg)} \dashv \mathsf{M}^{(\thg)}$.
+\end{Lemma}
+
+\begin{proof}
+  For an \(\Omega\)-algebra $\mathsf A$ and \(\Psi\)-structure $\mathsf X$, to give a map of \(\Omega\)-algebras
+  \begin{equation*}
+    \mathsf{A} \rightarrow \mathsf W^{\mathsf{X}}
+  \end{equation*}
+  is to give a function \(\theta \colon A \times X \rightarrow V\) such
+  that:
+  \begin{itemize}
+  \item For any \(a\in A\), the function $\theta(a, \thg) \colon X
+    \rightarrow V$ is a \(\Psi\)-structure map $\mathsf{X} \rightarrow \mathsf{W}$;
+  \item For any \(x\in X\), the function $\theta(\thg, x) \colon A
+    \rightarrow V$ is an \(\Omega\)-algebra map $\mathsf{A} \rightarrow \mathsf{M}$.
+  \end{itemize}
+  Symmetrically, to give a map of \(\Psi\)-structures
+  \begin{equation*}
+    \mathsf{X} \rightarrow \mathsf{M}^\mathsf{A}
+  \end{equation*}
+  is to give a function \(\theta \colon A \times X \rightarrow V\) such
+  that:
+  \begin{itemize}
+  \item For any \(a\in A\), the function $\theta(a, \thg) \colon X
+    \rightarrow V$ is a \(\Psi\)-structure map $\mathsf{X} \rightarrow \mathsf{W}$;
+  \item For any \(x\in X\), the function $\theta(\thg, x) \colon A
+    \rightarrow V$ is an \(\Omega\)-algebra map $\mathsf{A} \rightarrow \mathsf{M}$.
+  \end{itemize}
+  These correspondences are easily seen to be natural in $\mathsf{A}$ and $\mathsf{X}$.
+\end{proof}
+
+\begin{Lemma}
+  \label{lem:WexpY-in-ISPfM}
+  For any \(\mathsf{X} \in \cat{\Psi St}_{f}\), the object \(\mathsf{W}^{\mathsf{X}} \in
+  \cat{\Omega St}\) lands in \(\cat{Coclo}(\mathsf{M})\).
+\end{Lemma}
+\begin{proof}
+  
+  Recall we have free and forgetful functors
+  \begin{equation}
+    \label{eq:psi-free-forget}
+    %\xymatrixcolsep{4pc}
+    %\xymatrixrowsep{3pc}
+    \cd{
+      {\cat{\Psi St}}
+      \ar@<-4.5pt>[r]_-{\mathrm{G}^{\Psi}}
+      \ar@{<-}@<4.5pt>[r]^{\mathrm{F}^{\Psi}} \ar@{}[r]|-{\bot} &
+      {\Set}
+      \rlap{ .}
+    }
+  \end{equation}
+  Let \(\mathsf{X}\in \cat{\Psi St}_{f}\), and consider the free
+  \(\Psi\)-structure
+  %\(\mathrm{F}^{\Psi}\mathrm{G}^{\Psi}\mathrm{X}\)
+  \(\mathrm{F}^{\Psi}X\) on the underlying (finite) set of
+  \(\mathsf{X}\). Note that it has the same underlying set as
+  \(\mathsf{X}\), but
+  all relations are empty. The counit  \(\mathrm{F}^{\Psi}\mathrm{G}^{\Psi}
+  \mathsf{X}
+  \rightarrow \mathsf{X}\) is an epimorphism
+  %The identity function {\blue [not sure I
+  %understand this]} is an epimorphism
+  %$R (Y) \rightarrow \mathsf{Y}$,
+  whose image under
+  $\mathsf{W}^{(\thg)}$ is a monomorphism
+  $\mathsf{W}^{\mathsf{X}} \hookrightarrow \mathsf{M}^{\mathrm{G}^{\Psi}(\mathsf{X})}$, as desired.
+\end{proof}
+
+
+\begin{Prop}
+  \label{prop:adj-M-W-counit-invble}
+  The counit of the adjunction
+  $\mathsf{W}^{(\thg)} \dashv \mathsf{M}^{(\thg)}$ is invertible at
+  any \(\mathsf{A} \in \cat{Coclo}(\mathsf{M})\).
+\end{Prop}
+
+\begin{proof}
+  Let \(\mathsf{A}\in \cat{\Omega St}_{f}\). As \(\Omega\) consists
+  only of operations, it suffices to show that the counit
+  $\varepsilon_{\mathsf{A}} \colon \mathsf{A} \rightarrow
+  \mathsf{W}^{\mathsf{M}^{\mathsf{A}}}$ is an invertible function. The object $\mathsf{W}^{\mathsf{M}^{\mathsf{A}}} \in \cat{\Omega St}$ is given
+  by the set of functions $\theta \colon \cat{\Omega St}(\mathsf{A}, \mathsf{M}) \rightarrow V$
+  such that, for all $S \in \mathscr{R}
+  (k)$ and $f_1, \dots, f_k \in
+  \cat{\Omega St}(\mathsf{A}, \mathsf{M})$, we have
+  \begin{equation}
+    \label{eq:compat:prop:counit-inv}
+    (f_1(a), \dots, f_k(a)) \in S \text{ for all }a \in A \quad \implies \quad
+    (\theta(f_1), \dots, \theta(f_k)) \in S\rlap{ .}
+  \end{equation}
+  In particular, for all \(a\in A\), the evaluation function
+  \begin{equation*}
+    \mathsf{ev}_{a} \colon f \in
+    \cat{\Omega St}
+    (\mathsf{A}, \mathsf{M}) \quad \mapsto \quad f(a) \in V
+  \end{equation*}
+  is in $\mathsf{W}^{\mathsf{M}^{\mathsf{A}}}$, and the counit
+  \(\varepsilon_{\mathsf{A}}\) 
+  sends \(a\) to $\mathsf{ev}_{a}$. 
+
+  To see $\varepsilon_{\mathsf{A}}$ is injective, let us begin by
+  expressing $\mathsf{A}$ as a subobject 
+  \begin{equation*}
+    \cd{\mathsf{A} \ar@{ >->}[r]^-{\iota} & \mathsf{M}^n}
+  \end{equation*}
+  for some \(n\in \mathbb{N}
+  \), and write
+  $\iota_1, \dots, \iota_n \colon \mathsf{A} \rightarrow \mathsf{M}$
+  for the composites of $\iota$ with the $n$ projection maps. Now, if
+  $\mathsf{ev}_{a} = \mathsf{ev}_{b} \in
+  \mathsf{W}^{\mathsf{M}^{\mathsf{A}}}$, then
+  $\iota_k(a) = \mathsf{ev}_{a}(\iota_k) = \mathsf{ev}_{b}(\iota_k) =
+  \iota_k(b)$ for all $k\in [n]$, and so, since $\iota$ is injective,
+  $a = b$.
+
+  This proves $\varepsilon_{\mathsf{A}}$ is injective; we now show surjectivity.
+  Without loss of generality, we may assume $\iota$ is a subset
+  inclusion; whence, since $\mathscr{R}
+  = \mathsf{Inv}(\mathscr{T}
+  )$, we have
+  $A \subseteq V^n$ is a relation in $\mathscr{R}
+  (n)$. Taking \(S\) in~\eqref{eq:compat:prop:counit-inv}
+  to be \(A\), and the $f_i$'s to be $\iota_1, \dots, \iota_n$,
+  it is obvious that $(\iota_1(a), \dots, \iota_n(a)) \in A$ for all
+  \(a\in A\), whence $a_\theta \defeq (\theta(\iota_1), \dots, \theta(\iota_n)) \in A$
+  also.
+
+  We now show that $\theta = \mathsf{ev}_{a_\theta}$. To this end, let
+  $f \colon \mathsf{A} \rightarrow \mathsf{M}$ be a homomorphism of
+  \(\Omega\)-structures.
+  %, and consider 
+  %\begin{equation*}
+  %  \mathrm{gr}(f) = \{(\vec v, w) \in V^{n+1} : \vec v \in A,\, f(\vec
+  %  v) = w\} \subseteq V^{n+1}
+  %\end{equation*}
+  We have $\mathrm{gr}(f) \in \mathscr{R}(n+1)$ by
+  Lemma~\ref{lem:mor-iff-preserves-ops}, and evidently
+  \begin{equation*}
+    \bigl(\iota_1(a), \dots, \iota_n(a), f(a)\bigr) \in \mathrm{gr}(f) \quad \text{for all \(a\in A\).}
+  \end{equation*}
+  Thus by~\eqref{eq:compat:prop:counit-inv} we have
+  \begin{equation*}
+    (\theta(\iota_1), \dots, \theta(\iota_n), \theta(f)) \in \mathrm{gr}(f)
+  \end{equation*}
+  which is to say that $f(x_\theta) = \theta(f)$, and so $\theta =
+  \mathrm{ev}_{x_\theta}$ as required.
+\end{proof}
+
+From Lemma~\ref{lem:WexpY-in-ISPfM} and Proposition~\ref{prop:adj-M-W-counit-invble}, it follows that
+each counit map 
+\begin{equation*}
+  \mathsf{W}^\mathsf{X} \rightarrow
+  \mathsf{W}^{\mathsf{M}^{\mathsf{W}^{\mathsf{X}}}}
+\end{equation*}
+is invertible; so
+the adjunction $\mathsf{W}^{(\thg)} \dashv \mathsf{M}^{(\thg)}$ is
+\emph{idempotent}. In particular, this means that the unit of the
+adjunction is invertible at precisely those objects in the essential
+image of $\mathsf{M}^{(\thg)}$. We now characterise those.
+\begin{Lemma}
+  \label{lem:ob-in-im-Mexp-eq}
+  An object $\mathsf{X} \in \cat{\Psi St}_{f}$ is in the essential image of
+  $\mathsf{M}^{(\thg)}$ if and only if it can be expressed as an equaliser
+  of maps between finite powers of $\mathsf{W}$:
+  \begin{equation}
+    \label{eq:eq-in-R-str}
+    \cd{
+      \mathsf{X} \ar@{ >->}[r]^-{\iota} & \mathsf{W}^n \ar@<3pt>[r]^-{f} \ar@<-3pt>[r]_-{g} & \mathsf{W}^m
+    }
+  \end{equation}
+\end{Lemma}
+
+\begin{proof}
+  Suppose first that $\mathsf{X} \cong \mathsf{M}^{\mathsf{A}}$ for
+  some $\mathsf{A} \in \cat{\Omega St}_{f}$.
+  Consider the free \(\Omega\)-structure
+  $FU(\mathsf{A})  \in \cat{\Omega St}_{f}$ on the underlying set of
+  \(\mathsf{A}\).
+   We have a coequaliser diagram of
+  the form
+  \begin{equation*}
+    \cd{
+      FUFU(\mathsf{A}) \ar@<3pt>[r]^-{} \ar@<-3pt>[r]_-{} & FU(\mathsf{A}) \ar@{->>}[r]^-{} & \mathsf{A}
+      \rlap{ .}
+    }
+  \end{equation*}
+  Note that all of these
+  \(\Omega\)-structures are indeed finite. 
+  Applying the functor $\mathsf{M}^{(\thg)}$, we get an equaliser
+  diagram in $\cat{\Psi St}_{f}$ of the form~\eqref{eq:eq-in-R-str},
+  where $n = U(\mathsf{A})$ and
+  \(m = UFU(\mathsf{A})\).
+  %{\blue check? \(m = UFn\)?}. 
+
+  Conversely, assume that $\mathsf{X} \in \cat{\Psi St}$ has an expression as an
+  equaliser~\eqref{eq:eq-in-R-str}. Since $\mathscr{T}
+  = \mathsf{Pol}(\mathscr{R}
+  )$, the
+  components $f_1, \dots, f_m, g_1, \dots, g_m \colon \mathsf{W}^n \rightarrow
+  \mathsf{W}$ of $f$ and $g$ are operations in $\mathscr{T}
+  (n)$. Thus we have a
+  parallel pair of maps in $\cat{\Omega St}_{f}$
+  \begin{equation*}
+    \cd{
+      F(m) \ar@<3pt>[r]^-{\varphi} \ar@<-3pt>[r]_-{\gamma} & F(n)\rlap{ ,}
+    }
+  \end{equation*}
+  where $\varphi(\pi_i) = f_i$ and $\gamma(\pi_i) = g_i$, whose image
+  under $\mathsf{M}^{(\thg)}$ is the parallel pair $(f,g)$. Thus, if
+  we let $\mathsf{Q} \in \cat{\Omega St}$ be the coequaliser of $\varphi$ and
+  $\gamma$, then its image under $\mathsf{M}^{(\thg)}$ will be
+  isomorphic to $\mathsf{X}$, as claimed.
+\end{proof}
+
+\begin{Cor}
+  \label{cor:adj-M-W-restr-equiv}
+  The adjunction $\mathsf{W}^{(\thg)} \dashv \mathsf{M}^{(\thg)}$
+  restricts to an equivalence of categories between
+  \(\cat{Coclo}(\mathsf{M})^{\mathrm{op}}\) and the full subcategory of \(\cat{\Psi St}_{f}\) on
+  those $\mathsf{X}$ which can be expressed as an equaliser
+  diagram~\eqref{eq:eq-in-R-str}.
+\end{Cor}
+
+It is easily observed that  \(\cat{Coclo(\mathsf{M})} \simeq
+\cat{Coclo(\mathcal{M})} \), so we also have that:
+\begin{Cor}
+  \label{cor:dual-S-W}
+  The full subcategory of \(\cat{\Psi St}_{f}\) on
+  those $\mathsf{X}$ which can be expressed as an equaliser
+  diagram~\eqref{eq:eq-in-R-str} is dually equivalent to
+  \(\cat{Coclo}(\mathcal{M}) \simeq \cat{S}\).
+\end{Cor}
+
+
+
+\begin{Lemma}
+  \label{lem:33}
+  The full subcategory of \(\cat{\Psi St}_{f}\) on
+  those $\mathsf{X}$ which can be expressed as an equaliser
+  diagram~\eqref{eq:eq-in-R-str} is a reflective subcategory.
+\end{Lemma}
+
+\begin{proof}
+  From Corollary~\ref{cor:adj-M-W-restr-equiv}, we know that the
+  subcategory described
+  is equivalent to \(\cat{Coclo}(\mathsf{M})\),
+  and so its inclusion into \(\cat{\Psi St}_{f}\) has a left adjoint. In
+  particular, the reflector is given by the unit $\mathsf{X}
+  \rightarrow \mathsf{M}^{\mathsf{W}^{\mathsf{X}}}$ of the adjunction
+  $\mathsf{W}^{(\thg)} \dashv \mathsf{M}^{(\thg)}$.
+\end{proof}
+
+
+Recall we have syntactic category \(\cat{S}\) defined from the
+relational clone \(\mathscr{R}\). An object \(Y\) of
+\(\FL(\cat{S},\Set)\) admits a presentation as
+a structure for the signature \(\Psi\), with the interpretation of a
+relation \(S \in \mathscr{R}(k)
+\) as a relation
+\begin{equation*}
+  \dbr{S} =
+  \FL(\cat{S},\Set)(\mathrm{Y}
+  (k,S),Y)
+\end{equation*}
+%\(\dbr{S} =
+%\FL(\cat{S}^{\mathrm{op}},\Set)(\yo(k,S),Y)\)
+where \(\mathrm{Y}
+\) denotes
+the restricted Yoneda embedding. Naturally, the morphisms in
+\(\FL(\cat{S},\Set)\) preserve the relations in
+\(\Psi\), and so we obtain a forgetful functor \(\FL(\cat{S},\Set)
+\rightarrow \cat{\Psi St}\).
+
+
+\section{Interlude}
+\label{sec:interlude}
+
+We continue to assume we are given a clone of operations \(\mathscr{T}
+\subseteq \O_{V}\) and a clone of
+relations \(\mathscr{R}
+\subseteq \R_{V}\) on a finite set \(V\), with  \(\Pol(\mathscr{R}
+) = \mathscr{T}
+\) and \(\Inv(\mathscr{T}
+) = \mathscr{R}
+\). We also have the finite product theory
+\(\cat{T}\) constructed from \(\mathscr{T}
+\), and finite limit theory \(\cat{S}\) constructed from
+\(\mathscr{R}\) in Section~\ref{sec:syntactic-categories}. In the
+same section, we introduced the canonical model \(\mathcal{M}\) in
+\(\FP(\cat{T},\Set)\) endowing \(V\) with \(\cat{T}\)-algebra
+structure, and \(\mathcal{W}\) in \(\FL(\cat{S}, \cat{Set})\) endowing \(V\) with \(\cat{S}\)-model
+structure.
+
+
+\subsection{The story so far}
+\label{sec:story-so-far}
+
+\begin{enumerate}[label=(\alph*), ref=(\alph*)]
+\item
+  \label{it:pol-inv-bij}
+  The fixed points on each side of the \(\Pol\)-\(\Inv\) Galois
+  connection are clones of operations \(\langle V; \Omega 
+  \rangle \) and clones of relations \(\langle V; \Psi \rangle\),
+  and these are in bijection when the base set \(V\) is finite;
+  
+\item
+  \label{it:pol-inv-syntactic-cats}
+  We can construct syntactic categories \(\cat{T}\) from \(\mathscr{T}
+  \) and \(\cat{S}\) from \(\mathscr{R}\), with equivalences \(\cat{T} \simeq \cat{Clo}
+  (\mathcal{W})\) and \(\cat{S} \simeq \cat{Coclo}(\mathcal{M})\)
+  where concrete clone \(\mathscr{T} = \Pol(\mathscr{R}
+  )
+  \) and
+  relational clone \(\mathscr{R}= \Inv(\mathscr{T}
+  )\) on \(V\), and these are equipped with faithful functors into
+  \(\cat{Set}_{f}\) endowing \(V\) with \(\cat{T}\)-model structure
+  corresponding to model \(\mathcal{M}\) and
+  \(\cat{S}\)-model structure corresponding to model \(\mathcal{W}\);
+  
+\item
+  \label{it:pol-inv-syntax-4}
+  Given any of the four listed above, we can recover the other
+  three;
+  
+\item
+  \label{it:pol-inv-sig-method}
+  We can construct \(\cat{T} \simeq \cat{Clo}
+  (\mathcal{W})\) and \(\cat{S} \simeq \cat{Coclo}(\mathcal{M})\) up to equivalence as
+  subcategories of 
+  the categories of \(\Omega\)-structures and
+  \(\Psi\)-structures respectively and their models as subcategories of 
+  the categories of \(\Psi\)-structures and
+  \(\Omega\)-structures, respectively;
+  
+\item
+  \label{it:models-lfp}
+  The coclone theory (syntactic category) \(\cat{S}\)
+  %and \(\cat{T}\) admit nice
+  has finite limits and
+  so has a well developed theory of functorial semantics under
+  Gabriel-Ulmer duality --- its models form a
+  locally finitely presentable category;
+
+\item
+  \label{it:T-not-enough}
+  Although we always have a full and faithful functor
+  \(\cat{T}^{\mathrm{op}} \rightarrow \cat{S}\), the category
+  \(\cat{T}\) is \emph{not}, in general, enough to reconstruct
+  \(\cat{S}\) --- the situation is asymmetric;
+\end{enumerate}
+
+This is not altogether satisfying from a categorical perspective. We
+don't have an equivalence of categories capturing the duality between
+clones and coclones as apparent in the setting of the
+\(\Pol\)-\(\Inv\) Galois connection.
+
+It turns out we can rectify this situation; this
+will be the topic of Section~\ref{sec:duality}. First, we will need to know more
+about \(\cat{Coclo}(\mathcal{M}
+)\), and a particular class of finite limit theories and their
+categories of models, namely \emph{quasivarieties}. 
+
+
+\subsection{Quasivarieties, quasivarietal theories, and the dual of a coclone}
+\label{sec:quasivariety}
+
+\begin{Defn}[Quasivariety]
+  \label{def:quasivariety}
+  A (finitary, single-sorted) \emph{quasivariety} is a class of
+  algebras of some fixed (purely operational) signature \(\Omega\), defined by
+  \emph{quasiequations}, that is, implications of the following form:
+  \begin{equation}
+    \label{eq:21}
+    \bigwedge_{i\in [n]} (x_{i} = y_{i}) \implies x = y
+  \end{equation}
+  where \(x_{i},y_{i},x,y\) are all \(\Omega\)-terms and \(n\in \mathbb{N}
+  \).
+\end{Defn}
+
+\begin{Ex}
+  \label{ex:variety-is-qv}
+  Every equation may be considered a quasiequation in which \(n
+  = 0\). Therefore any variety is a quasivariety.
+\end{Ex}
+
+\begin{Ex}
+  \label{ex:left-semigrp}
+  Left-cancellative semigroups are semigroups which satisfy the following
+  quasiequation:
+  \begin{equation*}
+    \label{eq:22}
+    (x \cdot y = x \cdot z) \implies y = z.
+  \end{equation*}
+\end{Ex}
+
+Various characterisations of quasivarieties in categorical terms have
+been given, with the first attributed to Isbell~\cite{Isbell:1964aa}. The formulation
+we present below is Corollary 4.6 in~\cite{Pedicchio:2000aa}.
+\begin{Prop}
+  \label{prop:quasivariety-reg-epi-refl}
+  For any category \(\cat{A}\), the following are equivalent:
+  \begin{enumerate}[label=(\alph*), ref=(\alph*)]
+  \item
+    \label{it:pedic-qv-gen}
+    \(\cat{A}\) is a regular category with a finitely presentable,
+    regular projective, regular generator;
+  \item
+    \label{it:pedic-qv-reg-epi-refl}
+    \(\cat{A}\) is equivalent to a regular epi-reflective subcategory of a variety, and the inclusion
+    functor preserves filtered colimits;
+  \item
+    \label{it:pedic-qv}
+    \(\cat{A}\) is equivalent to a quasivariety.
+  \end{enumerate}
+\end{Prop}
+As we might expect from Example~\ref{ex:variety-is-qv},
+\(\FP(\cat{T},\Set)\) automatically satisfies the conditions to be a
+quasivariety, most obviously Item~\ref{it:pedic-qv-reg-epi-refl}.
+Let \(\cat{A}_{f}\) denote the full subcategory of \(\FP(\cat{T},
+\cat{Set})\) whose objects are algebras with finite underlying sets. As a locally finite variety, the algebras with finite underlying set are precisely the
+finitely presentable objects in the category of \(\cat{T}\)-models \(\FP(\cat{T},
+\cat{Set})\) (which is indeed locally finitely presentable).  Now, the free and forgetful adjunction may be written as
+\begin{equation}
+  \label{eq:hom-adj-free-gen}
+  \xymatrixcolsep{5pc}
+  \xymatrixrowsep{3.5pc}
+  \cd{
+    {\FL(\cat{A}_{f}^{\mathrm{op}},\cat{Set})}
+    \ar@<-4.5pt>[r]_-{\FL(\cat{A}_{f}^{\mathrm{op}},\cat{Set})(\mathcal{G}, \thg)} \ar@{<-}@<4.5pt>[r]^-{\mathcal{G}\ast (\thg)} \ar@{}[r]|-{\bot} &
+    {\Set}
+    \rlap{ ,}
+  }
+\end{equation}
+where \(\mathcal{G}\) denotes the free algebra on one generator, and
+\(\ast\) denotes copower. We have that \(\mathcal{G}\) is finitely
+presentable and every object in \(\cat{A}
+\defeq \FL(\cat{A}_{f}^{\mathrm{op}},\cat{Set})\). is a regular
+quotient of a copower of \(\mathcal{G}\) --- this is the object of Item~\ref{it:pedic-qv-gen}.
+
+The
+following characterisation of quasivarietal theories will play an important role.
+It is Corollary 2 in~\cite{Adamek:1998aa}.
+\begin{Prop}
+  \label{prop:qv-flt}
+  An essentially small category is equivalent to the theory of a (single-sorted)
+  quasivariety if it has finite limits and contains a single object
+  \(I\) such that
+  \begin{enumerate}[label=(\roman*), ref=(\roman*)]
+  \item
+    \label{it:qv-reg-inj}
+\(I\) is regular injective (and so every power \(I^{n}\) is
+    regular injective);
+  \item
+    \label{it:qv-reg-subobj}
+Every object is a regular subobject of \(I^{n}\) for some
+    \(n \in \mathbb{N}\).
+  \end{enumerate}
+\end{Prop}
+
+
+Note that \(\cat{A}_{f}\) is finitely complete, once again, as it is a
+locally finite variety, so we have restricted hom-adjunctions
+\begin{equation}
+  \label{eq:hom-adj-cogen-gen}
+  \xymatrixcolsep{5pc}
+  \xymatrixrowsep{3.5pc}
+  \cd{
+    {\Set_{f}^{\mathrm{op}}}
+    \ar@<-4.5pt>[r]_-{\mathcal{M}^{(\thg)}} \ar@{<-}@<4.5pt>[r]^-{\cat{A}_{f}(\thg,\mathcal{M})} \ar@{}[r]|-{\bot} &
+    {\cat{A}_{f}}
+    \ar@<-4.5pt>[r]_-{\cat{A}_{f}(\mathcal{G}, \thg)} \ar@{<-}@<4.5pt>[r]^-{\mathcal{G}\ast (\thg)} \ar@{}[r]|-{\bot} &
+    {\Set_{f}}
+    \rlap{ .}
+  }
+\end{equation}
+
+
+
+\begin{Lemma}
+  \label{lem:coclo-reg-epi-reflect-subcat}
+  Consider the full subcategory of \(\cat{A}_{f}\) whose objects are
+  those algebras \(A\) for which the unit \(\eta_{A} \colon A \rightarrow \mathcal{M}^{\cat{A}_{f}(A,\mathcal{M})}\)
+  is a monomorphism. This category is a regular epi-reflective
+  subcategory of \(\cat{A}_{f}\), and is equivalent to \(\cat{Coclo(\mathcal{M})}\).
+\end{Lemma}
+
+\begin{proof}
+  Observe that \(\cat{A}_{f}\) has a (regular epi, mono) factorisation
+  system, so by Proposition~\ref{prop:orthog-reflective-subcat}
+   the full
+  subcategory described in the statement of the lemma is a regular
+  epi-reflective subcategory thereof.
+  %Consider the inclusion \(\cat{Coclo(\mathcal{M})} \rightarrow
+  %\cat{A}_{f}\).  It is a full subcategory by definition. 
+  Now, the (regular epi, mono) factorisation gives the factorisation of a morphism \(h \colon A \rightarrow
+  \mathcal{M}^{k}\) through its image.
+
+  By Lemma~\ref{lem:subcat-unit-mono-closure}, the unit of the left
+  hom-adjunction~\eqref{eq:hom-adj-cogen-gen} is mono at the object \(h_{!}(A)\), and
+  every subalgebra of a finite power of \(\mathcal{M}\) is isomorphic
+  to \(h_{!}(A)\) for some \(h \colon A \rightarrow
+  \mathcal{M}^{k}\). We may conclude that 
+  %and
+  %it is an object in
+  %\(\cat{Coclo(\mathcal{M})}\).
+  \(\cat{Coclo(\mathcal{M})}\) is equivalent to a regular
+  epi-reflective subcategory of \(\cat{A}_{f}\).
+\end{proof}
+
+As \(\cat{A}_{f}\)
+is finitely \emph{cocomplete}, referring to Subsection~\ref{sec:reflective-subcats},
+Items~\ref{it:reflection-lims}--\ref{it:reflection-co-completeness},
+we also obtain: 
+\begin{Cor}
+  \label{cor:S-fin-colims}
+  The category \(\cat{Coclo(\mathcal{M})}\) has finite
+  colimits.
+\end{Cor}
+
+In light of the results leading up to here, we will reformulate our
+setting in a way that suits our purposes. First, we need one last
+component:
+
+\begin{Prop}
+  \label{prop:M-cogen}
+  The object \(\mathcal{M}\) is a cogenerator in \(\cat{Coclo}(\mathcal{M})\).
+\end{Prop}
+
+\begin{proof}
+  Consider a parallel pair of morphisms in
+  \(\cat{Coclo}(\mathcal{M})\); their codomain is a subobject of
+  \(\mathcal{M}^{k}\) for some \(k\in \mathbb{N}
+  \). There is a projection which separates them.
+\end{proof}
+
+Consider the free and forgetful adjunction and the adjunction given by
+the inclusion \(\iota\) and
+reflector \(\rho\):
+\begin{equation}
+  \label{eq:29}
+  \xymatrixcolsep{5pc}
+  \xymatrixrowsep{3.5pc}
+  \cd{
+    {\cat{Coclo}(\mathcal{M})}
+    \ar@<-4.5pt>[r]_-{\iota} \ar@{<-}@<4.5pt>[r]^-{\rho} \ar@{}[r]|-{\bot} &
+    {\cat{A}_{f}}
+    \ar@<-4.5pt>[r]_-{\cat{A}_{f}(\mathcal{G}, \thg)} \ar@{<-}@<4.5pt>[r]^-{\mathcal{G}\ast (\thg)} \ar@{}[r]|-{\bot} &
+    {\Set_{f}}
+    \rlap{ .}
+  }
+\end{equation}
+
+From the results of this section thus far, we have the following.
+\begin{Lemma}
+  \label{lem:coclo-M-theory}
+  The category \(\cat{Coclo(\mathcal{M})}\) is small, has finite colimits, and contains an object \(\rho\mathcal{G}\)
+  such that:
+  \begin{itemize}
+  \item
+    \(\rho\mathcal{G}\) is a regularly generating object;
+    
+  \item 
+    \(\rho\mathcal{G}\) is regular projective (and so every copower
+    \(\rho(\mathcal{G})\ast n \) is
+    regular projective);
+
+  \item
+    Every object is a regular quotient of \(\rho(\mathcal{G})\ast n\) for some
+    \(n \in \mathbb{N}\).
+  \end{itemize}
+  Moreover, it contains an object \(\mathcal{M}\) such that
+  \begin{itemize}
+  \item  Every object is a subobject of \(\mathcal{M}^{k}\) for some \(k \in
+    \mathbb{N}\);
+  \item
+    \(\mathcal{M}\) is a cogenerator.
+  \end{itemize}
+\end{Lemma}
+
+
+\begin{Cor}
+  \label{cor:cocloMop-qv-theory}
+  The category \(\cat{Coclo}(\mathcal{M})^{\mathrm{op}}\simeq \cat{S}^{\mathrm{op}}\) is
+  equivalent to the theory of a quasivariety.
+\end{Cor}
+
+\section{Duality}
+\label{sec:duality}
+
+\subsection{Abstract coclones and their duals}
+\label{sec:ARClo-QClo}
+
+The results of Section~\ref{sec:quasivariety} invite the following
+definitions.
+
+\begin{Defn}[Abstract coclone]
+  \label{def:arc}
+  An \emph{abstract coclone} is an essentially small category
+  \(\cat{K}\) which has
+  finite limits and finite colimits, and contains objects
+  \(\mathcal{M}\) and \(\mathcal{P}\) such that: 
+  \begin{enumerate}[label=(\alph*), ref=(\alph*)]
+  \item
+    \label{it:arc-cogen}
+    \(\mathcal{M}\) is a cogenerator;
+
+    \item
+    \label{it:arc-sub-J}
+    Every object is a subobject of \(\mathcal{M}^{k}\) for some \(k \in
+    \mathbb{N}\);
+    
+  \item
+    \label{it:arc-reg-gen}
+    \(\mathcal{P}\) is a regular generator;
+    
+  \item 
+    \label{it:arc-reg-proj}
+    \(\mathcal{P}\) is regularly projective (and so every copower \(\mathcal{P}\ast n\) is
+    regularly projective);
+
+  \item
+    \label{it:arc-reg-quot}
+    Every object is a regular quotient of \(\mathcal{P}\ast n\) for some
+    \(n \in \mathbb{N}\).  
+  \end{enumerate}
+\end{Defn}
+
+We resisted the temptation to call the following theories cococlones.
+\begin{Defn}
+  \label{def:5}
+  A \emph{quasiclone} is simply a category whose dual is an abstract
+  coclone. That is to say, it 
+  satisfies Items~\ref{it:qv-reg-inj}
+  and~\ref{it:qv-reg-subobj} in Proposition~\ref{prop:qv-flt}; has
+  finite colimits; and contains an object \(\mathsf{J}\) which is a
+  generator and such that
+  every object admits an epimorphism from a finite copower
+  \(\mathsf{J}\ast n\) for some \(n\in \mathbb{N}
+  \).
+\end{Defn}
+
+
+
+\begin{Ex}[Locally finite abstract coclones]
+  \label{ex:loc-fin-arc}
+  Locally finite abstract relational clones are exactly those which
+  arise as concrete on finite sets. 
+\end{Ex}
+
+\begin{Ex}%[Real vector spaces]
+  \label{ex:vector-space}
+  An abstract coclone which does not arise as 
+  concrete on a finite set is given by the category
+  of finite-dimensional vector spaces over the reals. As this category
+  is self-dual, the category of models of the coclone and its
+  dual quasivarietal theory are the same: real vector spaces. 
+\end{Ex}
+
+
+\begin{Defn}
+  \label{def:rad-cat}
+  The category \(\cat{RAdj}\) has small categories as objects and right
+  adjoints as morphisms.
+\end{Defn}
+
+\begin{Defn}
+  \label{def:func-o}
+  There is a functor \((\thg)^{\circ} \colon \cat{RAdj} ^{\mathrm{op}} \rightarrow \cat{RAdj}\) whose
+  action on objects is simply given by sending a small category to its
+  opposite (dual) category and a right adjoint to its left adjoint.
+  %(which is now a right adjoint in the dual).
+\end{Defn}
+
+\begin{Lemma}
+  \label{lem:12}
+  The functor \((\thg)^{\circ}\) gives a dual equivalence of \(\cat{RAdj}\) with itself.
+\end{Lemma}
+
+\begin{Defn}
+  \label{def:subcats-radj}
+  We write \(\cat{Coclo}\) for the full subcategory of \(\cat{RAdj}\)
+  whose objects are abstract coclones. Similarly, we write
+  \(\cat{QClo}\) for the full subcategory of \(\cat{RAdj}\)
+  whose objects are quasiclones.
+\end{Defn}
+
+\begin{Prop}
+  \label{prop:2}
+  The dual equivalence of \(\cat{RAdj}\) with itself restricts to a dual
+  equivalence \(\cat{Coclo}^{\mathrm{op}} \rightarrow
+  \cat{QClo}\).
+\end{Prop}
+
+\begin{Prop}
+  \label{prop:4}
+  The dual equivalence between \(\cat{Coclo}\) and \(\cat{QClo}\) restricts to a dual
+  equivalence between their locally finite members, that is, between \(\cat{Coclo_{Loc}}^{\mathrm{op}} \rightarrow \cat{QClo_{Loc}}\).
+\end{Prop}
+
+\section{Concluding remarks}
+\label{sec:concluding-remarks}
+
+The duality presented in this work is a \emph{syntactic} duality,
+which will never extend to the entire categories of semantics as the opposite of
+a locally finitely presentable category is never itself locally
+finitely presentable (unless it is a partially ordered
+set)~\cite{Gabriel:1971aa}. However, there are many examples of dualities where the objects with finite underlying
+sets are the finitely presentable models of a coclone
+theory equipped with the discrete topology (given at length in \cite{Clark:1998aa}). In these examples, the
+dualising objects are a finite algebra and a finite relational
+structure with the discrete topology. These correspond to our objects
+\(\mathsf{M}\) and \(\mathsf{W}\), where \(\mathsf{W}\) is equipped
+with the discrete topology.
+The insights
+gained from work for this paper will be applied to concrete dualities in forthcoming work.
+
+An interesting line of inquiry following the work of Section~\ref{sec:sig-setting}
+would be to establish whether the category of
+\emph{all} models of \(\cat{Coclo}(\mathsf{M})\) is equivalent to a reflective
+subcategory of \(\cat{\Psi St}\) --- not just those with finite
+underlying sets. An obstacle was presented by the fact
+that having a finite underlying set is not sufficient to be finitely
+presentable in \(\cat{\Psi St}\). Consequently, we leave open whether
+\(\FL(\cat{Coclo}(\mathsf{M},\Set)\) is equivalent to a full
+reflective subcategory of \(\cat{\Psi St}\).
+
+We stated at the outset that we would only be considering relational
+clones 
+%\(\Pol\)-\(\Inv\) Galois connection
+on finite sets.
+It should now be clear that this ensured that the finitely presentable
+objects in our categories were \emph{precisely the objects with finite
+  underlying sets}. However, our duality in Section~\ref{sec:duality} did not require the imposition
+of any finiteness conditions. The reader may recall we began this paper by saying we provided an answer
+to an invitation. We end the
+paper with our own invitation: can
+\(\Pol\)-\(\Inv\) duality for non-finite
+sets be reconciled with ours?
+
+
+\section*{Acknowledgements}
+Many thanks to Richard Garner for his contributions to the proofs in Section~\ref{sec:via-sig-structures}, to Soichiro Fujii, Brian Davey,
+and Ross Street for discussions which greatly benefited this work, and
+to John Power for drawing my attention to the fact that this was an open problem.
+
+
+
+\bibliographystyle{acm} \bibliography{syntax}
+\end{document}
