@@ -288,7 +288,7 @@
 \begin{abstract}
   Abstract clones in universal algebra and Lawvere's algebraic
   theories in category theory are well-known to be equivalent notions.
-  However, the universal algebraists' notion of relational clone, or coclone, has lacked a category
+  However, the universal algebraists' notion of a clone of relations, or coclone, has lacked a category
   theoretic treatment. Relational clones arise as the fixpoints of a certain
   Galois connection between operations and relations on a given set,
   with concrete clones forming the fixpoints on the other side. The lattices of
@@ -296,7 +296,7 @@
   clones of operations and clones of relations.
 %A category theoretic treatment linking this duality with finite product (Lawvere) theories has been
 %considered an open problem. 
-It turns out that under the right circumstances, coclones can be formulated category theoretically as
+It turns out that coclones can be formulated category theoretically as
 certain finite limit theories, thus we provide semantics for coclone theories under
 Gabriel-Ulmer duality. Further, we obtain a satisfying account
 of the duality between clones and coclones as a dual equivalence
@@ -383,6 +383,7 @@ theories of quasivarieties given in \cite{Adamek:1998aa}. The
 categories involved, along with the duality itself, is the content of Section~\ref{sec:duality}.
 
 
+
 \section{Background}
 \label{sec:background}
 
@@ -391,7 +392,7 @@ categories involved, along with the duality itself, is the content of Section~\r
 \subsection{Model theory}
 \label{sec:logic-background}
 %.
-This section is based on~\cite{Adamek:1994aa}.
+This section is based on descriptions given in Chapter 5 of~\cite{Adamek:1994aa}.
 %.
 \begin{Defn}[Single-sorted signature \(\Sigma\)]
   \label{def:1-signature}
@@ -421,6 +422,13 @@ This section is based on~\cite{Adamek:1994aa}.
   and an interpretation of each \(k\)-ary relation symbol \(\rho \in \Sigma_{\R}\) as a
   subset \(\dbr{\rho} \subseteq V^{k}\).
 \end{Defn}
+
+\begin{Rk}
+  \label{rk:sig-single-symbol}
+  If a signature \(\Sigma\) consists of a single symbol \(\sigma\), we
+  will write \(\langle V; \sigma \rangle\) and not \(\langle V;
+  \{\sigma\} \rangle\) to avoid cluttered notation.
+\end{Rk}
 
 \begin{Defn}[Category of \(\Sigma\)-structures]
   \label{def:cat-sig-st}
@@ -530,8 +538,59 @@ in~\cite{Adamek:1994aa}.
   \(f_{!}(\mathsf{X})\) of \(\mathsf{Y}\).
 \end{Rk}
 
-%\subsection{Finite limit theories and Gabriel-Ulmer duality}
-%\label{sec:FLTs}
+\subsection{Finite limit theories and Gabriel-Ulmer duality}
+\label{sec:FLTs}
+%The definition of locally finitely
+We base our description of Gabriel-Ulmer duality on that given in
+\cite{Adamek:1998aa}.
+An object \(A\) of a category \(\cat{C}\) is said to be \emph{finitely
+  presentable} if the hom-functor \(\cat{C}(A,\thg) \colon \cat{C}
+\rightarrow \Set\) preserves filtered colimits (or equivalently
+directed colimits as shown in~\cite{Adamek:1994aa}).
+
+A category \(\cat{C}\) is said to be \emph{locally finitely presentable} if it is
+cocomplete, and has a dense subcategory \(\cat{C}_{fp}\) of finitely
+presentable objects, that is, every object in \(\cat{C}\) is a filtered (or equivalently
+directed) colimit of objects in \(\cat{C}_{fp}\).
+In~\cite{Adamek:1998aa}, they refer to \(\cat{C}_{fp}^{\;\;\mathrm{op}}\)
+as the algebraic theory of \(\cat{C}\); we use algebraic
+to refer to structures with operations only, so we
+will refer to it as the \emph{(finite limit) theory} of \(\cat{C}\).
+
+Gabriel-Ulmer duality may be described as follows:
+%.
+\begin{enumerate}[label=(\Roman*), ref=(\Roman*)]
+  \item
+    \label{it:lfp-to-th}
+    For every locally finitely presentable category \(\cat{C}\), there is
+an equivalence
+\begin{equation*}
+  \cat{C} \simeq \FL(\cat{C}_{fp}^{\;\;\mathrm{op}},\Set);
+\end{equation*}
+\item
+  \label{it:th-to-lfp}
+  Every essentially small category \(\cat{K}\) with finite
+limits, \(\FL(\cat{K},\Set)\) is locally finitely
+presentable;
+%, and 
+%there is
+%an equivalence
+%\begin{equation*}
+%  \FL(\cat{K}^{\mathrm{op}},\Set) \simeq \FL(\cat{C}_{fp}^{\;\;\mathrm{op}},\Set)
+%\end{equation*}
+\item
+  \label{it:th-lfp-unique}
+  The theory of a locally finitely presentable category is essentially
+  unique, that is, if \( \FL(\cat{K},\Set) \simeq
+\FL(\cat{C}_{fp}^{\;\;\mathrm{op}},\Set)\), then
+\(\cat{K}\simeq \cat{C}_{fp}^{\;\;\mathrm{op}}\).
+%  \(\cat{K}\simeq \cat{C}_{fp}^{\mathrm{op}}\) if and only if
+%  \begin{equation*}
+%  \FL(\cat{K}^{\mathrm{op}},\Set) \simeq \FL(\cat{C}_{fp}^{\;\;\mathrm{op}},\Set)
+%\end{equation*}
+\end{enumerate}
+
+
 
 \subsection{Clones of operations and clones of relations}
 \label{sec:clones-rel-clones}
@@ -540,7 +599,12 @@ Let \(\cat{\Delta_{0}}\) be a skeleton of the category of linearly
 ordered finite
 sets and consider its inclusion \([\thg] \colon
 \cat{\Delta_{0}} \rightarrow \cat{Set}_{f}\) where \(\cat{Set}_{f}\) denotes
-the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set([n],A)\).
+the category of finite sets. We regard \(A^{n}\) as notation for the
+set \(\Set([n],A)\). This section takes from a number of sources, with
+the biggest contribution coming from~\cite{Freese:2022aa}, with
+material also from~\cite{Kerkhoff:2014aa}. We note
+  that~\cite{Behrisch:2014aa} does give a formulation of clones with
+  nullary operations, though our approach was somewhat different.
 
 \begin{Defn}
   \label{def:conc-clo}
@@ -639,6 +703,16 @@ the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set(
   \end{equation*}
 \end{Defn}
 
+
+
+\begin{Defn}
+  \label{def:rel-closed-op}
+  A \(k\)-ary 
+  relation \(S\) on a set \(A\) is \emph{closed} under an operation
+  \(f\) if \(S\) is a subalgebra of
+  \(\langle A; f \rangle^{k}\) under the pointwise structure.
+\end{Defn}
+
 \begin{Lemma}
   \label{lem:compatibility}
   Given an operation \(f \colon A^{n} \rightarrow A\) and a relation \(S
@@ -679,7 +753,7 @@ the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set(
 
 
 \begin{Defn}
-  \label{def:3}
+  \label{def:compatible-rel-op}
   We say a relation and an operation are \emph{compatible} if any of the
   items in Lemma~\ref{lem:compatibility} hold (and so all of them do).
 \end{Defn}
@@ -690,12 +764,8 @@ the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set(
   Algebraists have traditionally opted not to allow an algebra to have
   empty underlying set, and to exclude nullary
   operations from clones of operations. However, without their inclusion, the categories we define
-  later will lack necessary (finite) limits and colimits. We note that~\cite{Behrisch:2014aa} does give a formulation of
-  compatibility of operations and relations, but their approach is
-  somewhat different to ours.
- 
-  
-  An empty \(k\)-ary relation \(\emptyset{}^{k}\)
+  later will lack necessary (finite) limits and colimits. We resolve
+  this by considering that an empty \(k\)-ary relation \(\emptyset{}^{k}\)
   %\(r \colon S \rightarrow A^{k}\)
   is closed under \(u \colon A^{n} \rightarrow A\)  if the following
   diagram commutes:
@@ -722,7 +792,7 @@ the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set(
 
 \begin{Rk}
   \label{rk:finite-vs-non}
-  The definition of a relational clone on a set \(A\) is usually given
+  The definition of a clone of relations on a set \(A\) is usually given
   in terms of
   being a fix-point of the \(\Pol\)-\(\Inv\) Galois connection. If \(A\) is not finite, this requires a notion of
   \emph{local closure}; this ensures that the lattice of clones of
@@ -741,10 +811,14 @@ the category of finite sets. We regard \(A^{n}\) as notation for the set \(\Set(
   clones of operations and clones of relations}
 \label{sec:pol-inv-galois}
 
-The notion of `compatibility' between operations and relations given
-in Definition~\ref{def:3} induces a binary relation
+Definitions~\ref{def:compatibility-matrix} and~\ref{def:rel-closed-op}
+define a binary relation between operations and relations in terms of
+preservation and closure. That is, we have 
+a binary relation
 \(\C \subseteq \O_{A} \times \R_{A}
-\).
+\) defined by \((\tau,S) \in \C\) if \(\tau\) preserves \(S\), or
+equivalently, if \(S\) is closed under \(\tau\) (this is indeed
+equivalent by Lemma~\ref{lem:compatibility}).
 As with any binary relation, \(\C\) induces a Galois connection
 between powersets. Known as
 the \(\Pol\)-\(\Inv\) Galois connection\footnote{The names of the adjoints come from the traditional terminology of a
@@ -767,12 +841,12 @@ the \(\Pol\)-\(\Inv\) Galois connection\footnote{The names of the adjoints come 
   Given a finite
   set
   \(A\), the fixpoints \(\Pol\Inv(F)=F\) are precisely the clones of
-  operations on \(A\) and the fixed points \(\Inv\Pol(R)=R\) are
+  operations on \(A\) and the fixpoints \(\Inv\Pol(R)=R\) are
   precisely the clones of relations on \(A\). Moreover, the lattices
   of fixpoints are dually isomorphic.  
 \end{Prop}
 
-Using compatibility from Definition~\ref{def:3}, we have that the mappings 
+Using the equivalent notion of compatibility from Definition~\ref{def:compatible-rel-op}, we have that the mappings 
 \begin{equation*}
   \Inv \colon \mathscr{P} (\O_{A})^{\mathrm{op}}  \rightarrow \mathscr{P} (\R_{A}) \quad \text{ and } \quad \Pol \colon \mathscr{P} (\R_{A})^{\mathrm{op}}
   \rightarrow \mathscr{P} 
@@ -2386,6 +2460,11 @@ From the results of this section thus far, we have the following.
   The category \(\cat{Coclo}(\mathcal{M})^{\mathrm{op}}\simeq \cat{S}^{\mathrm{op}}\) is
   equivalent to the theory of a quasivariety.
 \end{Cor}
+
+%\subsection{Categorical formulation revisited}
+%\label{sec:categ-form-revis}
+
+
 
 \section{Duality}
 \label{sec:duality}
