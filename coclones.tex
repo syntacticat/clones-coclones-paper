@@ -286,44 +286,60 @@
   Scholarship is gratefully acknowledged.}
 
 \begin{abstract}
-  The equivalence between Lawvere theories in category theory and
-  abstract clones in universal algebra is well-known.
-  The notion of relational clone is less so, but deserves more attention. These were developed in general algebra as a tool to study concrete
-  clones due to a Galois connection between relations and
-  operations. Concrete clones form the fix-points on the side of
-  operations and relational clones form the fix-points on the side of relations.
-  The lattices of fix-points are dually isomorphic --- a duality between
-  clones of operations and clones of relations, or coclones. 
-A category theoretic treatment linking this duality with finite product (Lawvere) theories has been
-considered an open problem. In this work, we give such a category theoretic
-treatment, leading to a dual equivalence
+  Abstract clones in universal algebra and Lawvere's algebraic
+  theories in category theory are well-known to be equivalent notions.
+  However, the universal algebraists' notion of relational clone, or coclone, has lacked a category
+  theoretic treatment. Relational clones arise as the fixpoints of a certain
+  Galois connection between operations and relations on a given set,
+  with concrete clones forming the fixpoints on the other side. The lattices of
+  fixpoints are dually isomorphic --- a duality between
+  clones of operations and clones of relations.
+%A category theoretic treatment linking this duality with finite product (Lawvere) theories has been
+%considered an open problem. 
+It turns out that under the right circumstances, coclones can be formulated category theoretically as
+certain finite limit theories, thus we provide semantics for coclone theories under
+Gabriel-Ulmer duality. Further, we obtain a satisfying account
+of the duality between clones and coclones as a dual equivalence
   between categories whose objects on each side are certain classes of
-  finite limit theories.  
+  finite limit theories; the finite product (Lawvere) theories are
+  recoverable as certain subcategories thereof.
 \end{abstract}
 \maketitle
 
 
 \section{Introduction}
 \label{sec:introduction}
+The notion of
+  single-sorted equational theory is a fundamental one in mathematics,
+  and has various incarnations; two which abstract away from signature
+  are Lawvere's algebraic theories, and the general (universal) algebraists'
+  abstract clones. On the other hand, concrete clones describe
+  algebraic structure defined in terms of the operations available on
+  a fixed base set.
 Concrete clones have been objects of study since as far back as the
 1920s, when Emil Post gave a description of all clones concrete on the
-2-element set~\cite{Kerkhoff:2014aa}. However, the abstract notion was a later development
-originating as Lawvere's algebraic theories in~\cite{Lawvere:1963aa}. General algebraists adopted algebraic theories in the form
-of \emph{abstract clones}, finding use in the presentation of algebraic
-theories abstracted from signature, while concrete
-clones provide a complete representation of algebraic structure on
-a given base set. Building on this, algebraists developed the
-notion of a \emph{relational clone}, or \emph{coclone},
-which arise as the fixpoints on the relation side of a Galois
-connection between relations and operations on a given set. The name coclone suggests a duality, and indeed the fixpoints on the operation
-side are clones, and the clones and coclones on a given set form dually
-isomorphic lattices. Known commonly as the \(\Pol\)-\(\Inv\) Galois
-connection, it was described by
-McKenzie {\it et. al.} in~\cite{McKenzie:1987aa}
+2-element set, calling them `closed classes' of
+functions~\cite{Kerkhoff:2014aa}. The abstract notion
+came some time later, as certain small categories with
+finite products in Lawvere's now classic thesis of
+1963~\cite{Lawvere:1963aa}.
+%under the name \emph{algebraic theories}.
+Shortly after, general algebraists developed \emph{abstract clones},
+finding use in the presentation of equational
+theories abstracted from signature.
+Algebraists further developed the
+notion of a \emph{relational clone}, or \emph{coclone}, which
+arise as the fixpoints on the relation side of what is known as the
+\(\Pol\)-\(\Inv\) Galois connection between relations and operations
+on a given set. The name coclone suggests a duality, and indeed the fixpoints on the operation
+side are clones, and clones and coclones on a given set form dually
+isomorphic lattices. The
+\(\Pol\)-\(\Inv\) Galois connection was described by McKenzie {\it et. al.} in~\cite{McKenzie:1987aa}
 %in their monograph \emph{Algebras, Lattices,
 %Varieties I}
 as `the most
-basic Galois connection in algebra'. 
+basic Galois connection in algebra'.
+
 
 The \(\Pol\)-\(\Inv\) Galois
 connection was the focus of the 2013 Workshop on Algebra, Coalgebra and Topology at the
@@ -335,10 +351,21 @@ In the preface to the workshop's Proceedings,
 editors John Power and Cai Wingfield invite a category theoretic treatment
 of the connection --- and thus presumably the duality --- between clones and coclones in terms of Lawvere
 theories.  This work provides an answer to that invitation.
+
+
 However, our interest in this problem originates in its connection
 with a certain class of concrete dualities, the `natural dualities' of
-\cite{Clark:1998aa}; a connection we will make clear in forthcoming
-work. We note that the present work owes much to \cite{Clark:1998aa}.
+\cite{Clark:1998aa}. %We note that the present work owes much to \cite{Clark:1998aa},
+In that work, they show that all clones on the 2-element set (with the exception
+of 8 out of countably many) give the algebraic structure
+of dualising objects in concrete dualities; relational structure
+from the coclone along with the discrete topology gives the dualising
+object its alternate form. Examples of dualities from this list
+abound, and include Stone duality, Priestley
+duality, Hofmann-Mislove-Stralka duality for unital meet-semilattices,
+and Isbell's duality for median algebras. The connection with the
+present work will be made clear in forthcoming
+work. 
 
 Returning to the matter at hand, it
 turns
