@@ -590,6 +590,7 @@ presentable;
 %\end{equation*}
 \end{enumerate}
 
+In general, we will use Gabriel-Ulmer duality without further comment.
 
 
 \subsection{Clones of operations and clones of relations}
@@ -1646,114 +1647,185 @@ of models of \(\cat{Coclo}(\mathcal{M})\). Moreover, we have
   \) is the Yoneda embedding functor.
 \end{Prop}
 
-To say we have a concrete clone on a finite set \(V\) is to say we
+\begin{proof}
+  To say we have a concrete clone on a finite set \(V\) is to say we
 have a finite
 product (Lawvere) theory \(\cat{T}\) and a
-faithful finite product preserving functor \(\mathcal{M} \colon
-\cat{T} \rightarrow \Set\) which sends \(\aone\) to \(V\).
+faithful, finite product preserving functor \(\mathcal{M} \colon \cat{T} \rightarrow \Set\) which sends
+  \(\aone\) to \(V\) (note that we are observing the usual convention of
+  considering the objects of \(\cat{T}\) as natural numbers with
+  \({\bf n}\) being the \(n\)-fold power of \(\aone\)).
+  %a small category with (necessarily strictly associative)
+  %finite products, equipped with a strict product-preserving
+  %identity-on-objects functor
+  Take the full subcategory
+  %\(\cat{K} \defeq \cat{Coclo}(\mathcal{M})\)
+  \( \cat{Coclo}(\mathcal{M})\) of \(\FP(\cat{T}, \cat{Set})\); it has
+  finite limits. For any \(A \in \FP(\cat{T},\Set)\), we can
+  precompose
+  %\(\mathcal{W}\) such that
+  the hom-functor with the inclusion, as in the diagram:
+  \begin{equation}
+    \label{eq:coclo-model}
+    \xymatrixcolsep{6pc}
+    \xymatrixrowsep{3.5pc}
+    \cd{
+      %{\cat{T}^{\mathrm{op}}} \ar[r]^-{} \ar[dr]_-{\mathrm{Y} } &
+      {\cat{Coclo}(\mathcal{M})} \ar[d]_-{\mathrm{I}
+      } \ar[dr]
+      %^-{\mathcal{W}}
+      & \\
+      %&
+      {\FP(\cat{T},\Set)} \ar[r]_-{\FP(\cat{T},\Set)(
+        %\mathrm{Y}\aone
+        A,\thg)
+      } & {\Set}
+      \rlap{ .}
+    }
+  \end{equation}
+  This functor is a model of \(\cat{Coclo}(\mathcal{M})\) ---  as a full
+  and faithful functor, \(\mathrm{I} \) preserves limits, as do
+  covariant hom-functors, so their composition certainly preserves
+  finite limits. Let
+  \(\mathrm{Y} \colon \cat{T} \rightarrow \FP(\cat{T},\Set)\) be the
+  Yoneda embedding, with \(\mathrm{Y}\aone\) thus denoting the free
+  algebra on one generator. Take diagram~\eqref{eq:coclo-model} with
+  \(A = \mathsf{Y}\aone\).
+  %This is simply the forgetful functor from \(\FP(\cat{T},\Set)\) to
+  %\(\cat{Set}\), so for any monomorphism
+  %\(\mathcal{A}\rightarrow \mathcal{M}^{k}\), we have a monomorphism
+  %\(\FP(\cat{T},\Set)(\mathrm{Y} \aone,\mathcal{A}) \rightarrow
+  %V^{k}\).
 
-Take
-the full subcategory
-%\(\cat{K} \defeq \cat{Coclo}(\mathcal{M})\)
-\( \cat{Coclo}(\mathcal{M})\)
-of \(\FP(\cat{T},
-\cat{Set})\); it has finite limits. For any \(A \in
-\FP(\cat{T},\Set)\), we can precompose
-%\(\mathcal{W}\) such that
-the hom-functor with the inclusion, as in the diagram:
-\begin{equation}
-  \label{eq:coclo-model}
-  \xymatrixcolsep{6pc}
-  \xymatrixrowsep{3.5pc}
-  \cd{
-    %{\cat{T}^{\mathrm{op}}} \ar[r]^-{} \ar[dr]_-{\mathrm{Y}
-    %} & 
-    {\cat{Coclo}(\mathcal{M})} \ar[d]_-{\mathrm{I}
-    } \ar[dr]
-    %^-{\mathcal{W}}
-    & \\
-    %&
-    {\FP(\cat{T},\Set)} \ar[r]_-{\FP(\cat{T},\Set)(
-      %\mathrm{Y}\aone
-      A,\thg)
-    } & {\Set}
-    \rlap{ .}
-  }
-\end{equation}
-This functor is a model of \(\cat{Coclo}(\mathcal{M})\); as a full and faithful functor, \(\mathrm{I}
-\) preserves limits, as do covariant
-hom-functors, so their composition certainly preserves finite limits.
-Let \(\mathrm{Y}
-\colon \cat{T} \rightarrow \FP(\cat{T},\Set)\) be the Yoneda
-embedding, with \(\mathrm{Y}\aone\) thus denoting the free algebra on
-one generator (following the usual convention with finite product
-theories). Take diagram~\eqref{eq:coclo-model} with \(A =
-\mathsf{Y}\aone\).
-%This is simply the
-%forgetful functor from \(\FP(\cat{T},\Set)\) to \(\cat{Set}\), so for any monomorphism \(\mathcal{A}\rightarrow \mathcal{M}^{k}\), we have a monomorphism
-%\(\FP(\cat{T},\Set)(\mathrm{Y}
-%\aone,\mathcal{A}) \rightarrow V^{k}\).
-
-We now write \(\mathsf{W} \defeq \FP(\cat{T},\Set)(\mathrm{Y}
-\aone,\mathrm{I}
-(\thg))\).
-%and observe that \(\mathsf{W}\) is an object in the category
-%\(\FL(\cat{Coclo}(\mathcal{M}),\Set)\). 
-Take \(\cat{Clo}(\mathsf{W})\) in
-\(\FL(\cat{Coclo}(\mathcal{M}),\Set)\).  In particular, limit
-preserving functors, preserve finite products, so for any \(\mathsf{X} \in
-\FL(\cat{Coclo}(\mathcal{M}),\Set)\), we can precompose
-%\(\mathcal{W}\) such that
-the hom-functor with the inclusion and obtain a model of the finite
-product theory \(\cat{Clo}(\mathsf{W})\):
-\begin{equation}
-  \label{eq:clo-model}
-  \xymatrixcolsep{8pc}
-  \xymatrixrowsep{3.5pc}
-  \cd{
-    {\cat{Clo}(\mathsf{W})}
-    \ar[d]_-{\iota} \ar[dr]^-{}
-    %{\cat{K}(\thg,\mathcal{M})}
-    & \\
-    {\FL(\cat{Coclo}(\mathcal{M}),\Set)} \ar[r]_-{\FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathsf{X}, \thg)
-    } & {\Set}
-  }\rlap{ .}
-\end{equation}
-%we have a model of the theory \(\cat{Clo}(\mathsf{W})\),
-Take \(\mathsf{X}\) in diagram~\eqref{eq:clo-model} to be \(\mathrm{Y}(\mathcal{M})
-\), where we use \(\mathrm{Y}
-\) again to denote the Yoneda embedding. We have
-\(\cat{Clo}(\mathsf{W}) \simeq \cat{T}\).
-Moreover,
-\begin{equation}
-  \label{eq:M-equation}
-  \FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathrm{Y}
-  \mathcal{M}, \iota(\thg)) \cong \mathcal{M}
-\end{equation}
-and
-\begin{equation}
-  \label{eq:W-equation}
+  We now write
+  \(\mathsf{W} \defeq \FP(\cat{T},\Set)(\mathrm{Y} \aone,\mathrm{I}
+  (\thg))\).
+  %and observe that \(\mathsf{W}\) is an object in the category
+  %\(\FL(\cat{Coclo}(\mathcal{M}),\Set)\).
+  Take \(\cat{Clo}(\mathsf{W})\) in
+  \(\FL(\cat{Coclo}(\mathcal{M}),\Set)\). In particular, limit
+  preserving functors, preserve finite products, so for any
+  \(\mathsf{X} \in \FL(\cat{Coclo}(\mathcal{M}),\Set)\), we can
+  precompose
+  %\(\mathcal{W}\) such that
+  the hom-functor with the inclusion and obtain a model of the finite
+  product theory \(\cat{Clo}(\mathsf{W})\):
+  \begin{equation}
+    \label{eq:clo-model}
+    \xymatrixcolsep{8pc}
+    \xymatrixrowsep{3.5pc}
+    \cd{
+      {\cat{Clo}(\mathsf{W})}
+      \ar[d]_-{\iota} \ar[dr]^-{}
+      %{\cat{K}(\thg,\mathcal{M})}
+      & \\
+      {\FL(\cat{Coclo}(\mathcal{M}),\Set)} \ar[r]_-{\FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathsf{X}, \thg)
+      } & {\Set}
+    }\rlap{ .}
+  \end{equation}
+  %we have a model of the theory \(\cat{Clo}(\mathsf{W})\),
+  Take \(\mathsf{X}\) in diagram~\eqref{eq:clo-model} to be
+  \(\mathrm{Y}(\mathcal{M}) \), where we use \(\mathrm{Y} \) again to
+  denote the Yoneda embedding. We have
+  \(\cat{Clo}(\mathsf{W}) \simeq \cat{T}\). Moreover,
+  \begin{equation}
+    \label{eq:M-equation}
+    \FL(\cat{Coclo}(\mathcal{M}),\Set)( \mathrm{Y}
+    \mathcal{M}, \iota(\thg)) \cong \mathcal{M}
+  \end{equation}
+  and
+  \begin{equation}
+    \label{eq:W-equation}
     \FP(\cat{Clo}(\mathsf{W}),\Set)(\mathrm{Y}
-  \mathsf{W},\mathrm{I}
-  (\thg)) \cong \mathsf{W} \rlap{ .}
-\end{equation}
+    \mathsf{W},\mathrm{I}
+    (\thg)) \cong \mathsf{W} \rlap{ .}
+  \end{equation}
+  Let \(N\) be equal to the
+expression on the left-hand side of~\eqref{eq:M-equation}. It is
+straightforward that
+\(\cat{Coclo}(N) \simeq \cat{Coclo}(\mathcal{M})\).
+\end{proof}
 %\(\FL(\cat{Coclo}(\mathsf{W}),\Set)( \mathrm{Y}
 %\mathcal{M}, \iota(\thg)) \cong \mathcal{M}\) and \(\FP(\cat{Clo}(\mathsf{W}),\Set)(\mathrm{Y}
 %\mathsf{W},\mathrm{I}
 %(\thg)) = \mathsf{W} \).
-Let \(N\) be equal to the
-expression on the left-hand side of~\eqref{eq:M-equation}. It is
-straightforward that
-\(\cat{Coclo}(N) \simeq \cat{Coclo}(\mathcal{M})\). Therefore we can
+ This result says we can
 go from `categorical concrete clone' to `categorical coclone' back to
 `categorical concrete clone', and get the same thing up to
-isomorphism. It is less clear with what we have so far how to go from `categorical coclone' back to
-`categorical concrete clone' then back again and get essentially the
-same thing. How we can have this work will be made clear in
-Section~\ref{sec:duality}. We will first find a presentation of the
-finitely presentable objects in the category of models of
-\(\cat{Coclo}(\mathcal{M})\). This involves looking at the category of
-structures over the relational signature obtained from the relational clone \(\mathscr{R}\).
+isomorphism. Let us consider the converse. Assume we have a locally finitely presentable category with object
+\(\mathsf{W}\) finitely presentable. Suppose all finite powers of
+\(\mathsf{W}\) exist in \(\cat{L}\). This would be our `categorical coclone'. For any \(\mathsf{X}\) we have a
+finite product preserving functor from \(\cat{Clo}(\mathsf{W})\) to
+\(\Set\) given by the hom-functor precomposed with the Yoneda
+embedding \(\mathrm{Y}
+\) and inclusion \(\iota\), as in the diagram:
+%with a faithful functor \(\cat{L} \rightarrow \Set\).
+%\(\FL(\cat{L}^{\mathrm{op}},\Set) \rightarrow \Set\)
+\begin{equation}
+  \label{eq:cloW-arbitrary-L}
+  %\xymatrixcolsep{3pc}
+  \xymatrixrowsep{3pc}
+  \cd{
+    {\cat{Clo}(\mathsf{W})} \ar[r]^-{\iota} \ar[dr]_-{
+    } & 
+    {\cat{L}} \ar[d]_-{\mathrm{Y}
+    } \ar[drrr]
+    %^-{\cat{L}(\mathsf{J},\thg)}
+    & \\
+    & {\FL(\cat{L}^{\mathrm{op}},\Set)}
+    \ar[rrr]_-{\FL(\cat{L}^{\mathrm{op}},\Set)(\mathsf{X}, \thg)      
+    } &&& {\Set}\rlap{ .}
+    }  
+  \end{equation}
+
+However, with our rather arbitrary choice of \(\cat{L}\) there is no clear relationship between the category \(\cat{L}\) and the models
+of \(\cat{Clo}(\mathsf{W})\). Nonetheless, if we start with
+\(\cat{L} \simeq \cat{S}^{\mathrm{op}}\)
+where \(\cat{S}\) is the syntactic category constructed
+from clone of relations \(\mathscr{R}\) on a finite set \(V\), we do
+obtain the expressions given in Equations~\eqref{eq:M-equation} and~\eqref{eq:W-equation}.
+%and
+\begin{Rk}
+  \label{rk:fp-objects-models-cloW}
+ One canonical way to choose \(\cat{L}\)
+we considered was to ask for it to be dually equivalent to \emph{all} finitely presentable objects in
+\(\FP(\cat{Clo}(\mathsf{W}),\Set)\). That is, we could consider the monad on
+\(\cat{Set}_{f}\) induced by the adjunction
+  \begin{equation}
+    \label{eq:adj-arbitrary-L}
+    \xymatrixcolsep{5pc}
+    \xymatrixrowsep{3.5pc}
+    \cd{
+      {\cat{L}^{\mathrm{op}}} 
+       \ar@<-4.5pt>[r]_-{\cat{L}(\thg,\mathsf{W})}
+\ar@{<-}@<4.5pt>[r]^-{\mathsf{W}^{(\thg)}} \ar@{}[r]|-{\bot} &
+{\Set_{f}}
+\rlap{ ,}
+    }
+  \end{equation}
+  and ask for the right adjoint to be monadic. In other words, we
+  could ask that the canonical comparison functor from
+  \(\cat{L}^{\mathrm{op}}\) to the category of algebras for the
+  induced monad be an equivalence; moreover, we could ask for an
+  equivalence with the finitely
+  presentable objects of \(\FP(\cat{Clo}(\mathsf{W}),\Set)\) (which is
+  indeed a locally finitely presentable category).
+  However, there is no reason to expect
+that there exists some
+fathful model \(\mathcal{M} \colon \cat{Clo}(\mathsf{W}) \rightarrow
+\Set\), and hence we would not recapture the 
+\(\Pol\)-\(\Inv\) duality between clones of operations and clones of
+relations that we desire.
+\end{Rk}
+
+
+To sum up, with the results we have at this point, it is unclear how to formulate
+a `categorical coclone' such that we may obtain from it a
+`categorical concrete clone', then get back to where we started entirely without reference to fixpoints of
+\(\Pol\)-\(\Inv\). We defer this to
+Section~\ref{sec:categ-form-revis}. We will first look at
+presentations of models in terms of signatures.
+
 
 \section{Presentations via signatures}
 \label{sec:via-sig-structures}
@@ -2445,11 +2517,54 @@ From the results of this section thus far, we have the following.
   equivalent to the theory of a quasivariety.
 \end{Cor}
 
-%\subsection{Categorical formulation revisited}
-%\label{sec:categ-form-revis}
+\subsection{Categorical formulation revisited}
+\label{sec:categ-form-revis}
 
+Recall we that in Section~\ref{sec:categ-form} we considered some
+locally finitely presentable category with an object \(\mathsf{W}\) in
+the category of finitely
+presentable objects; with all finite powers of \(\mathsf{W}\)
+contained in \(\cat{L}\). We now refine our choice of \(\cat{L}\): We
+require that \(\cat{L}^{\mathrm{op}}\) is finitely complete, finitely
+cocomplete, and contains a generator \(\mathsf{J}\) such that every
+object in \(\cat{L}\) is a subobject of a finite power of
+\(\mathsf{J}\). Moreover, \(\mathsf{W}\) is a regularly injective, regular
+cogenerator and every object admits a presentation as an equaliser of
+a parallel pair between finite powers of \(\mathsf{W}\). Lastly, we
+require that \(\cat{L}(\thg,\mathsf{W}) \colon \cat{L}^{\mathrm{op}}
+\rightarrow \Set \) and \(\cat{L}(\mathsf{J},\thg) \colon \cat{L}
+\rightarrow \Set \) land in \(\cat{Set}_{f}\).
 
-
+Then we have
+\begin{equation}
+  \label{eq:M-coclo-to-clo}
+  %\xymatrixcolsep{3pc}
+  \xymatrixrowsep{3pc}
+  \cd{
+    {\cat{Clo}(\mathsf{W})} \ar[r]^-{\iota} \ar[dr]_-{
+    } & 
+    {\cat{L}} \ar[d]_-{\mathrm{Y}
+    } \ar[drrr]
+    %^-{\cat{L}(\mathsf{J},\thg)}
+    & \\
+    & {\FL(\cat{L}^{\mathrm{op}},\Set)}
+    \ar[rrr]_-{\FL(\cat{L}^{\mathrm{op}},\Set)(\mathrm{Y}
+      \mathsf{J}, \thg)      
+    } &&& {\Set}\rlap{ .}
+    }  
+\end{equation}
+The composition \(\mathcal{M}\defeq \FL(\cat{L}^{\mathrm{op}},\Set)(\mathrm{Y}
+      \mathsf{J}, \mathrm{Y}
+      \iota(\thg))\) is a model of \(\cat{Clo}(\mathsf{W})\) and is
+      faithful --- it gives us the faithful model \(\mathcal{M}\) such
+      that \(\cat{Coclo}(\mathcal{M})\) is a full, regular epi-reflective
+      subcategory of \(\FP(\cat{Clo}(\mathsf{W}),\Set)\), and 
+      \(\cat{L}^{\mathrm{op}} \simeq \cat{Coclo}(\mathcal{M})\).
+      Observe that our base set \(V\) is finite set
+      \(\cat{L}(\mathsf{W},\mathsf{J})\), and we obtain the purely
+      categorical formulation of the duality for clones of operations
+      and relations 
+      we sought.
 \section{Duality}
 \label{sec:duality}
 
@@ -2493,7 +2608,7 @@ definitions.
 
 We resisted the temptation to call the following theories cococlones.
 \begin{Defn}
-  \label{def:5}
+  \label{def:quasiclone}
   A \emph{quasiclone} is simply a category whose dual is an abstract
   coclone. That is to say, it 
   satisfies Items~\ref{it:qv-reg-inj}
@@ -2512,7 +2627,7 @@ We resisted the temptation to call the following theories cococlones.
 \end{Defn}
 %.
   \begin{Ex}
-    \label{ex:concr-clo-loc-fin-theory}
+    \label{ex:abs-coclo-loc-fin}
     This terminology is entirely consistent with the definition of locally
   finite varieties in universal algebra, which are varieties in which
   finitely generated free algebras are finite. Indeed, locally finite
