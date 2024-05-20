@@ -569,7 +569,7 @@ an equivalence
 \end{equation*}
 \item
   \label{it:th-to-lfp}
-  Every essentially small category \(\cat{K}\) with finite
+  For every essentially small category \(\cat{K}\) with finite
 limits, \(\FL(\cat{K},\Set)\) is locally finitely
 presentable;
 %, and 
@@ -1630,28 +1630,11 @@ natural to make the following definition.
 \label{sec:categ-form}
 
 We now consider our setting entirely in categorical terms.
-\begin{Defn}[Locally finite category]
-  \label{def:lfc}
-  A category is called \emph{locally
-    finite} if it has finite homsets.
-\end{Defn}
-%.
-This terminology is entirely consistent with the definition of locally
-  finite varieties in universal algebra, which are varieties in which
-  finitely generated free algebras are finite. Indeed, locally finite
-  varieties are precisely those which are models of a locally finite
-  (finite product) theory. We therefore have:
-  %.
-\begin{Prop}
-  \label{prop:concr-clo-loc-fin-theory}
-  A finite product theory is equivalent to the syntactic category of a
-  concrete clone on a finite set if and only if it is a locally finite category. 
-\end{Prop}
 
 \begin{Prop}
   \label{prop:ct-concr-clo}
-  Let \(\cat{T}\) be a finite product (Lawvere) theory which is a
-  locally finite category. Assume we have a
+  Let \(\cat{T}\) be a finite product (Lawvere) theory and assume we
+  have a
 faithful finite product preserving functor \(\mathcal{M} \colon
 \cat{T} \rightarrow \Set\).
 Then \(\cat{T}\) is equivalent to \(\cat{Clo}(\mathsf{W})\) for some
@@ -1665,8 +1648,9 @@ of models of \(\cat{Coclo}(\mathcal{M})\). Moreover, we have
 
 To say we have a concrete clone on a finite set \(V\) is to say we
 have a finite
-product (Lawvere) theory \(\cat{T}\) which is a locally finite category, and a
-faithful finite product preserving functor \(\mathcal{M} \colon \cat{T} \rightarrow \Set\).
+product (Lawvere) theory \(\cat{T}\) and a
+faithful finite product preserving functor \(\mathcal{M} \colon
+\cat{T} \rightarrow \Set\) which sends \(\aone\) to \(V\).
 
 Take
 the full subcategory
@@ -2521,8 +2505,22 @@ We resisted the temptation to call the following theories cococlones.
   \).
 \end{Defn}
 
-
-
+\begin{Defn}[Locally finite category]
+  \label{def:lfc}
+  A category is called \emph{locally
+    finite} if it has finite homsets.
+\end{Defn}
+%.
+  \begin{Ex}
+    \label{ex:concr-clo-loc-fin-theory}
+    This terminology is entirely consistent with the definition of locally
+  finite varieties in universal algebra, which are varieties in which
+  finitely generated free algebras are finite. Indeed, locally finite
+  varieties are precisely those which are models of a locally finite
+  (finite product) theory. If a finite product theory is equivalent to the syntactic category
+  of a concrete clone on a finite set then it is locally finite.  
+  \end{Ex}
+  %
 \begin{Ex}[Locally finite abstract coclones]
   \label{ex:loc-fin-arc}
   Locally finite abstract relational clones are exactly those which
