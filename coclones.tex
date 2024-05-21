@@ -298,7 +298,8 @@
 %considered an open problem. 
 It turns out that coclones can be formulated category theoretically as
 certain finite limit theories, thus we provide semantics for coclone theories under
-Gabriel-Ulmer duality. Further, we obtain a satisfying account
+Gabriel-Ulmer duality. We introduce a notion of `abstract
+coclone', and proceed to obtain a satisfying account
 of the duality between clones and coclones as a dual equivalence
   between categories whose objects on each side are certain classes of
   finite limit theories; the finite product (Lawvere) theories are
@@ -309,14 +310,13 @@ of the duality between clones and coclones as a dual equivalence
 
 \section{Introduction}
 \label{sec:introduction}
+
 The notion of
   single-sorted equational theory is a fundamental one in mathematics,
-  and has various incarnations; two which abstract away from signature
-  are Lawvere's algebraic theories, and the general (universal) algebraists'
-  abstract clones. On the other hand, concrete clones describe
-  algebraic structure defined in terms of the operations available on
-  a fixed base set.
-Concrete clones have been objects of study since as far back as the
+  and has various incarnations; among those which abstract away from signature
+  are Lawvere's algebraic theories in category theory, and the general (universal) algebraists'
+  abstract clones. Concrete clones describe algebraic structure defined in terms of the operations available on
+  a fixed base set. Concrete clones have been objects of study since as far back as the
 1920s, when Emil Post gave a description of all clones concrete on the
 2-element set, calling them `closed classes' of
 functions~\cite{Kerkhoff:2014aa}. The abstract notion
@@ -327,6 +327,8 @@ finite products in Lawvere's now classic thesis of
 Shortly after, general algebraists developed \emph{abstract clones},
 finding use in the presentation of equational
 theories abstracted from signature.
+
+
 Algebraists further developed the
 notion of a \emph{relational clone}, or \emph{coclone}, which
 arise as the fixpoints on the relation side of what is known as the
@@ -339,8 +341,8 @@ isomorphic lattices. The
 %Varieties I}
 as `the most
 basic Galois connection in algebra'.
-
-
+%.
+%.
 The \(\Pol\)-\(\Inv\) Galois
 connection was the focus of the 2013 Workshop on Algebra, Coalgebra and Topology at the
 University of Bath, which was organised
@@ -351,6 +353,7 @@ In the preface to the workshop's Proceedings,
 editors John Power and Cai Wingfield invite a category theoretic treatment
 of the connection --- and thus presumably the duality --- between clones and coclones in terms of Lawvere
 theories.  This work provides an answer to that invitation.
+%.
 
 
 However, our interest in this problem originates in its connection
@@ -367,21 +370,186 @@ and Isbell's duality for median algebras. The connection with the
 present work will be made clear in forthcoming
 work. 
 
-Returning to the matter at hand, it
-turns
-out that to capture \(\Pol\)-\(\Inv\) duality, we need more than the
-Lawvere theory alone can provide, in general. Nonetheless, we obtain a dual equivalence between categories
-whose objects on each side are certain classes of \emph{finite limit
-  theories}, while the finite product (Lawvere) theories are
-recoverable as full subcategories thereof. 
-We formulate the duality in terms of what we refer to as \emph{abstract
-  coclones}, which we introduce in the lead up to describing the
-duality in Section~\ref{sec:quasivariety}. The description of their
-dual theories, also in Section~\ref{sec:quasivariety}, is based on a characterisation
-of finite limit
-theories of quasivarieties given in \cite{Adamek:1998aa}. The
-categories involved, along with the duality itself, is the content of Section~\ref{sec:duality}.
+Returning to the matter at hand,
+%it
+%turns
+%out that to capture \(\Pol\)-\(\Inv\) duality, we need more than the
+%Lawvere theory alone can provide, in general. Nonetheless, we obtain a dual equivalence between categories
+%whose objects on each side are certain classes of \emph{finite limit
+%  theories}
+%, attained in Proposition~\ref{prop:coclo-dual-Qclo},
+%while the finite product (Lawvere) theories are
+%recoverable as full subcategories thereof
+%(Lemma~\ref{lem:model-Qclo-Clo}).
+%We formulate the duality in terms of what we call \emph{abstract
+%  coclones}, which we introduce in Definition~\ref{def:arc} in the lead up to describing the
+%duality.
+%%in Section~\ref{sec:duality}.
+%We refer to their
+%dual theories as \emph{quasiclones}, described in Definition~\ref{def:quasiclone}.
+%%, also in Section~\ref{sec:duality}, is based on a characterisation
+%%of finite limit
+%%theories of quasivarieties given in \cite{Adamek:1998aa}.
+%%(Section~\ref{sec:concluding-remarks}).
+%%.
+%
+%
+%%The categories involved, along with the duality itself, is the content of
+%%Section~\ref{sec:duality}.
+%
+%%\subsection{Overview}
+%%\label{sec:outline}
+we give an outline of this paper as follows:
+%\begin{enumerate}
+%  [align=left
+%%  labelindent = \parindent,
+%%leftmargin = 2\parindent,
+%%labelsep = *
+%]
+%  %[left=0pt .. \parindent]
+%  %[\hspace{18pt}]
+%  %[label=(\arabic*), ref=(\arabic*)]
+%\item[Section~\ref{sec:introduction}.]
+%  \label{it:outline-1}
 
+
+Section~\ref{sec:introduction}. Introduction.
+
+
+   Section~\ref{sec:background}.
+%\item[Section~\ref{sec:background}.]  
+  %\label{it:outline-2}
+   Background. We introduce the setting and some background results. % clones, coclones, and the \(\Pol\)-\(\Inv\) Galois
+  %connection.
+  The fixed points on each side of the \(\Pol\)-\(\Inv\) Galois
+  connection are clones of operations
+\(\mathscr{T} = \Pol(\mathscr{R}
+  )
+  \) and clones of relations \(\mathscr{R}= \Inv(\mathscr{T}
+  )\)
+  and these are in bijection when the base set \(V\) is finite.
+
+  %\item[Section~\ref{sec:via-syntactic-cats}.]
+    %\label{it:outline-3}
+  Section~\ref{sec:via-syntactic-cats}.
+  Syntactic categories and functorial semantics.
+    %\begin{enumerate}
+    %\item[\ref{sec:clone-cat}] 
+      Using the known equivalence between Lawvere's algebraic theories and
+    abstract clones, we construct a syntactic category \(\cat{T}\)
+    from a concrete clone \(\mathscr{T} = \Pol(\mathscr{R}
+  )
+  \) exhibiting finite set \(V\) as the underlying set of canonical
+  model \(\mathcal{M} \colon \cat{T} \rightarrow \Set\).
+  %\item[~\ref{sec:coclone-to-clone}]
+    In the first significant
+  contribution of this paper, we construct a
+  syntactic category \(\cat{S}\) from the coclone \(\mathscr{R}= \Inv(\mathscr{T}
+  )\) (Definition~\ref{def:syn-cat-cc}).
+  
+%\item[~\ref{sec:syntactic-categories}]
+  We show \(\cat{S}\) is equivalent to a canonical subcategory
+  of the models of the theory \(\cat{T}\) we denote
+  \(\cat{Coclo}(\mathcal{M})\) in
+  Proposition~\ref{prop:forget-S-factorisation}.
+    We proceed to show \(\cat{S}\) has finite limits in
+    Lemma~\ref{lem:syntactic-cc-limits},  with the
+    corollary~(\ref{cor:coclone-models-lfp})
+that it falls under the purview of Gabriel-Ulmer duality; thus we give
+functorial semantics for \(\cat{S}\) with its category of models being
+locally finitely presentable. Furthermore, we obtain in
+Proposition~\ref{prop:clo-coclo-equiv} that the category of models of \(\cat{S}\)
+contains an object
+\(\mathcal{W}\) and a canonical subcategory \(\cat{Clo}(\mathcal{W})\), recovering \(\cat{T}\) up to equivalence.
+
+%\item[~\ref{sec:categ-form}.]
+  The syntactic categories are equipped with faithful functors into
+  \(\cat{Set}_{f}\) endowing \(V\) with \(\cat{T}\)-model structure
+  corresponding to model \(\mathcal{M}\) and
+  \(\cat{S}\)-model structure corresponding to model \(\mathcal{W}\),
+  described in Proposition~\ref{prop:ct-concr-clo}.
+
+  %We have \(\cat{T}\) constructed from \(\mathscr{T} = \Pol(\mathscr{R}
+  %)
+  %\), and \(\cat{S}\) constructed from a
+  %relational clone \(\mathscr{R}= \Inv(\mathscr{T}
+  %)\), and given one of the four we can recover the other three up to equivalence.
+
+%\end{enumerate}
+     
+%\item[Section~\ref{sec:via-sig-structures}.]
+  %\label{it:outline-4}
+  Section~\ref{sec:via-sig-structures}.
+  We consider
+  %the signature \(\Omega\) derived from clone of
+  %operations \(\mathscr{T} = \Pol(\mathscr{R}
+  %)
+  %\) and
+  the signature \(\Psi\) derived from clone of relations \(\mathscr{R}= \Inv(\mathscr{T}
+  )\).
+  ,
+  %and the objects \(\langle V; \Omega 
+  %\rangle\) and \(\langle V; \Psi \rangle\) in the categories of \(\Psi\)-structures and
+  %\(\Omega\)-structures respectively.
+  We show the finitely presentable
+  models of
+  \(\cat{S}\) are equivalent to a full reflective subcategory of the category of
+  \(\Psi\)-structures and every model of \(\cat{S}\) may be
+  represented as a \(\Psi\)-structure.
+ %, and the  and  to the clone of operations as an object \(\langle V; \Omega 
+ % \rangle \) and a clone of relations \(\langle V; \Psi \rangle\), construct \(\cat{T} \simeq \cat{Clo}
+ % (\mathcal{W})\) and \(\cat{S} \simeq \cat{Coclo}(\mathcal{M})\) up to equivalence as
+ % subcategories of 
+ % the categories of \(\Omega\)-structures and
+ % \(\Psi\)-structures respectively and their models as subcategories of 
+ % the categories of \(\Psi\)-structures and
+ % \(\Omega\)-structures, respectively.
+  
+%\item[Section~\ref{sec:interlude}.]
+  %\label{it:pol-inv-syntax-4}
+  %Section~\ref{sec:interlude} starts with taking stock of what we have
+  %found so far, and proceeds to put
+  Section~\ref{sec:interlude}.
+  We put the last pieces in place so as to give a purely categorical formulation of the duality
+between operations and relations. In essence, there are two pertinent
+facts: \(\cat{S}\) is finitely cocomplete as well as
+finitely complete, and it contains a cogenerator. As its dual category is also a finite limit
+theory, we can ask what its category of models looks like; it turns
+out that it is equivalent to a quasivariety, and so a full, regular epi-reflective
+subcategory of a variety.
+
+  
+%\item[Section~\ref{sec:duality}.]
+  %\label{it:pol-inv-sig-method}
+Section~\ref{sec:duality}.
+We introduce the notion of an `abstract coclone' in
+  Definition~\ref{def:arc}, and their dual theories, quasiclones (a certain class of
+quasivarietal theories containing a cogenerator), in
+  Definition~\ref{def:quasiclone}. We proceed to define categories whose objects
+  consist of these two classes of theories respectively, and whose morphisms in each case are
+  right adjoint functors (Definition~\ref{def:subcats-radj}).
+
+
+  We attain the main result of this work in
+Proposition~\ref{prop:coclo-dual-Qclo} with a dual
+equivalence between the aforementioned categories.
+
+Lastly, we show the duality restricts to those theories arising as concrete on finite
+sets; this is the content of
+Proposition~\ref{prop:restricted-dual-coclo-Qclo}, and that the finite product (Lawvere) theories are
+recoverable as full subcategories thereof
+(Lemma~\ref{lem:model-Qclo-Clo}).
+
+  
+%\item[Section~\ref{sec:concluding-remarks}.]
+  %\label{it:models-lfp}
+Section~\ref{sec:concluding-remarks}.
+Concluding remarks. While the duality itself does not have any finiteness constraints, we do
+restrict our attention to clones of operations and clones of
+relations on finite base sets up until that point. We address the
+reasoning for this choice and its 
+implications. We also discuss future work.
+%\end{enumerate}
 
 
 \section{Background}
@@ -838,7 +1006,7 @@ the \(\Pol\)-\(\Inv\) Galois connection\footnote{The names of the adjoints come 
 \end{equation*}
 
 \begin{Prop}
-  \label{prop:3}
+  \label{prop:fix-clo-coclo}
   Given a finite
   set
   \(A\), the fixpoints \(\Pol\Inv(F)=F\) are precisely the clones of
@@ -1251,7 +1419,7 @@ indeed well-defined:
 
 
 \begin{Lemma}
-  \label{lem:27}
+  \label{lem:S-closed-composition}
   Assume \(S \in \mathscr{R}(k)\), \(T \in \mathscr{R}(n)\), \(R \in
   \mathscr{R}(m)\), and that the
   graphs \(\gr (g)\) and \(\gr (f)\) of functions \(g \colon S
@@ -2167,7 +2335,7 @@ It is easily observed that  \(\cat{Coclo(\mathsf{M})} \simeq
 
 
 \begin{Lemma}
-  \label{lem:33}
+  \label{lem:cocloMop-refl-subcat-psi}
   The full subcategory of \(\cat{\Psi St}_{f}\) on
   those $\mathsf{X}$ which can be expressed as an equaliser
   diagram~\eqref{eq:eq-in-R-str} is a reflective subcategory.
@@ -2579,29 +2747,29 @@ definitions.
   An \emph{abstract coclone} is an essentially small category
   \(\cat{K}\) which has
   finite limits and finite colimits, and contains objects
-  \(\mathcal{M}\) and \(\mathcal{P}\) such that: 
+  \(\mathsf{M}\) and \(\mathsf{P}\) such that: 
   \begin{enumerate}[label=(\alph*), ref=(\alph*)]
   \item
     \label{it:arc-cogen}
-    \(\mathcal{M}\) is a cogenerator;
+    \(\mathsf{M}\) is a cogenerator;
 
     \item
     \label{it:arc-sub-J}
-    Every object is a subobject of \(\mathcal{M}^{k}\) for some \(k \in
+    Every object is a subobject of \(\mathsf{M}^{k}\) for some \(k \in
     \mathbb{N}\);
     
   \item
     \label{it:arc-reg-gen}
-    \(\mathcal{P}\) is a regular generator;
+    \(\mathsf{P}\) is a regular generator;
     
   \item 
     \label{it:arc-reg-proj}
-    \(\mathcal{P}\) is regularly projective (and so every copower \(\mathcal{P}\ast n\) is
+    \(\mathsf{P}\) is regularly projective (and so every copower \(\mathsf{P}\ast n\) is
     regularly projective);
 
   \item
     \label{it:arc-reg-quot}
-    Every object is a regular quotient of \(\mathcal{P}\ast n\) for some
+    Every object is a regular quotient of \(\mathsf{P}\ast n\) for some
     \(n \in \mathbb{N}\).  
   \end{enumerate}
 \end{Defn}
@@ -2610,7 +2778,7 @@ We resisted the temptation to call the following theories cococlones.
 \begin{Defn}
   \label{def:quasiclone}
   A \emph{quasiclone} is simply a category whose dual is an abstract
-  coclone. That is to say, it 
+  coclone. That is to say, it contains an object \(\mathsf{W}\) which
   satisfies Items~\ref{it:qv-reg-inj}
   and~\ref{it:qv-reg-subobj} in Proposition~\ref{prop:qv-flt}; has
   finite colimits; and contains an object \(\mathsf{J}\) which is a
@@ -2619,6 +2787,16 @@ We resisted the temptation to call the following theories cococlones.
   \(\mathsf{J}\ast n\) for some \(n\in \mathbb{N}
   \).
 \end{Defn}
+
+Since every finite limit preserving functor in particular preserves
+finite products, we have the following.
+\begin{Lemma}
+  \label{lem:model-Qclo-Clo}
+  Given a theory \(\cat{L}\) in \(\cat{QClo}\), every model of
+\(\cat{L}\) is a model of the finite product theory
+\(\cat{Clo}(\mathsf{W})\), where \(\mathsf{W}\) is the regular
+injective cogenerator as given in Definition~\ref{def:quasiclone}.
+\end{Lemma}
 
 \begin{Defn}[Locally finite category]
   \label{def:lfc}
@@ -2638,7 +2816,7 @@ We resisted the temptation to call the following theories cococlones.
   %
 \begin{Ex}[Locally finite abstract coclones]
   \label{ex:loc-fin-arc}
-  Locally finite abstract relational clones are exactly those which
+  Locally finite abstract coclones are exactly those which
   arise as concrete on finite sets. 
 \end{Ex}
 
@@ -2667,7 +2845,7 @@ We resisted the temptation to call the following theories cococlones.
 \end{Defn}
 
 \begin{Lemma}
-  \label{lem:12}
+  \label{lem:Radj-self-dual}
   The functor \((\thg)^{\circ}\) gives a dual equivalence of \(\cat{RAdj}\) with itself.
 \end{Lemma}
 
@@ -2680,17 +2858,93 @@ We resisted the temptation to call the following theories cococlones.
 \end{Defn}
 
 \begin{Prop}
-  \label{prop:2}
+  \label{prop:coclo-dual-Qclo}
   The dual equivalence of \(\cat{RAdj}\) with itself restricts to a dual
   equivalence \(\cat{Coclo}^{\mathrm{op}} \rightarrow
   \cat{QClo}\).
 \end{Prop}
 
+
+
 \begin{Prop}
-  \label{prop:4}
+  \label{prop:restricted-dual-coclo-Qclo}
   The dual equivalence between \(\cat{Coclo}\) and \(\cat{QClo}\) restricts to a dual
   equivalence between their locally finite members, that is, between \(\cat{Coclo_{Loc}}^{\mathrm{op}} \rightarrow \cat{QClo_{Loc}}\).
 \end{Prop}
+
+%Note that given a theory \(\cat{L}\) in \(\cat{QClo}\), every model of
+%\(\cat{L}\) is a model of the finite product theory
+%\(\cat{Clo}(\mathsf{W})\), where \(\mathsf{W}\) is the regular
+%injective cogenerator as given in Definition~\ref{def:quasiclone}.
+
+\subsection{Summing up}
+\label{sec:summing-up}
+
+Let \(\cat{K}\) be the dual of \(\cat{L}\) with object \(\mathsf{M}\)
+being the dual of \(\mathsf{J}\) and \(\mathsf{P}\) the dual of
+\(\mathsf{W}\). 
+We have the evident commutative diagrams
+\begin{equation}
+  \label{eq:2}
+   \cd{
+    {\cat{K}^{\mathrm{op}}} \ar[dr]_-{\cat{K}(\thg,\mathsf{M})} \ar[r]^{\sim} & {\cat{L}} \ar[d]^-{\cat{L}(\mathsf{J},\thg)}\\
+& {\Set}
+  }
+\end{equation}
+and
+\begin{equation}
+  \label{eq:3}
+     \cd{
+    {\cat{L}^{\mathrm{op}}} \ar[dr]_-{\cat{L}(\thg,\mathsf{W})} \ar[r]^{\sim} & {\cat{K}} \ar[d]^-{\cat{K}(\mathsf{P},\thg)}\\
+& {\Set}\rlap{ .}
+  }
+\end{equation}
+%.
+Now consider the functor \(\mathcal{M}\) making the following diagram commute:
+\begin{equation}
+  \label{eq:1}
+  \cd{
+    {\cat{Clo}(\mathsf{W})} \ar[dr]_-{\mathcal{M}} \ar[r]
+    %^-{\iota}
+    & {\cat{L}} \ar[r]^(.4){\sim}    \ar[d]
+    %_-{\cat{L}(\mathsf{J},\thg)}
+    & \ar[dl]^-{\cat{K}(\thg,\mathsf{M})} {\cat{K}^{\mathrm{op}}} \\
+& {\Set}\rlap{ .}
+  }
+\end{equation}
+Note that the unlabelled arrow is the inclusion. Observe that every finite limit
+preserving functor \(\cat{L} \rightarrow \Set\) 
+restricts to a finite product preserving functor by precomposing
+appropriately, so we have a forgetful functor
+\(\FL(\cat{L},\Set)\rightarrow \FP(\cat{Clo}(\mathsf{W},\Set))\). When the theories \(\cat{K}\) (or equivalently \(\cat{L}\)) are
+locally finite categories, we have that \(\cat{K} \simeq
+\cat{Coclo}(\mathcal{M})\), and a commutative diagram 
+\begin{equation}
+  \label{eq:4}
+  \cd{
+    {\cat{Clo}(\mathsf{W})^{\mathrm{op}}} \ar@/_-1.5pc/[rr]^{\mathrm{Y}
+    }
+    %@<3ex>[rr]
+    \ar[dr]
+    %_-{\mathcal{M}}
+    \ar[r]
+    %^-{\iota}
+    & {\cat{K}} \ar[r]^-{} \ar[d]^(.4)*[@d]{\sim} &  {\FP} {(\cat{Clo}(\mathsf{W}),\Set)} \ar[d]^-{\FP(\cat{Clo}(\mathsf{W}),\Set)(\mathrm{Y}\mathsf{W},\thg
+      )}    
+    %{\cat{L}(\mathsf{J},\thg)}
+    \\
+    & {\cat{L}^{\mathrm{op}}} \ar[r]_-{\cat{L}(\thg,\mathsf{W})} & {\Set}
+    \rlap{ .}
+  }
+\end{equation}
+ Moreover, we have an adjoint equivalence
+\(\mathsf{W}^{(\thg)} \dashv \mathsf{M}^{(\thg)}\) under the
+equivalences given in Section~\ref{sec:sig-setting}. Thus, we recover the duality between the concrete clone of operations
+and
+the concrete clone of relations on the finite set
+\(\cat{L}(\mathsf{J},\mathsf{W})\cong \cat{K}(\mathsf{P},\mathsf{M})
+\cong  \mathcal{M}(\mathsf{W})\).
+
 
 \section{Concluding remarks}
 \label{sec:concluding-remarks}
@@ -2703,15 +2957,15 @@ set)~\cite{Gabriel:1971aa}. However, there are many examples of dualities where 
 sets are the finitely presentable models of a coclone
 theory equipped with the discrete topology (given at length in \cite{Clark:1998aa}). In these examples, the
 dualising objects are a finite algebra and a finite relational
-structure with the discrete topology. These correspond to our objects
-\(\mathsf{M}\) and \(\mathsf{W}\), where \(\mathsf{W}\) is equipped
-with the discrete topology.
-The insights
-gained from work for this paper will be applied to concrete dualities in forthcoming work.
+structure with the discrete topology --- we observe that
+Lemma~\ref{lem:cocloMop-refl-subcat-psi} says that we have an adjoint
+  equivalence between finite algebras and finite relational
+  structures, induced by lifted contravariant hom-functors. The insights
+gained from this work will be applied to concrete dualities in forthcoming work.
 
-An interesting line of inquiry following the work of Section~\ref{sec:sig-setting}
+An interesting line of inquiry following the results of Section~\ref{sec:sig-setting}
 would be to establish whether the category of
-\emph{all} models of \(\cat{Coclo}(\mathsf{M})\) is equivalent to a reflective
+\emph{all} models of the coclone theory \(\cat{S}\) is equivalent to a reflective
 subcategory of \(\cat{\Psi St}\) --- not just those with finite
 underlying sets. An obstacle was presented by the fact
 that having a finite underlying set is not sufficient to be finitely
@@ -2726,11 +2980,13 @@ on finite sets.
 It should now be clear that this ensured that the finitely presentable
 objects in our categories were \emph{precisely the objects with finite
   underlying sets}. However, our duality in Section~\ref{sec:duality} did not require the imposition
-of any finiteness conditions. The reader may recall we began this paper by saying we provided an answer
+of any finiteness conditions.
+The reader may recall we began this paper by saying we provided an answer
 to an invitation. We end the
-paper with our own invitation: can
-\(\Pol\)-\(\Inv\) duality for non-finite
-sets be reconciled with ours?
+paper with our own invitation: to give the duality between clones
+of operations and clones of relations on non-finite base sets in terms
+of ours.
+
 
 
 \section*{Acknowledgements}
@@ -2740,5 +2996,6 @@ to John Power for drawing my attention to the fact that this was an open problem
 
 
 
-\bibliographystyle{acm} \bibliography{syntax}
+\bibliographystyle{acm}
+\bibliography{bibdata}
 \end{document}
